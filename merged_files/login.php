@@ -23,11 +23,11 @@
         <form action="php_scripts/login_script.php" method="post">
           <div class = "form-group">
             <label for="usernameInput" class="login-email-label">Email:</label>
-            <input type="text" class="form-control" id="InputEmail">
+            <input name="usernameInput"type="text" class="form-control" id="InputEmail">
           </div>
           <div class = "form-group">
             <label for="passwordInput" class="login-pass-label">Password:</label>
-            <input type="password" class="form-control login-password-input" id="InputPassword">      
+            <input name="passwordInput"type="password" class="form-control login-password-input" id="InputPassword">      
           </div>
           <div class="d-flex justify-content-end">
             <button name="login" type="submit" class="btn col-4 btn-login">Login</button>
