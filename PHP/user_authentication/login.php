@@ -1,11 +1,19 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
 <?php
+session_start();
 //Create connection to database
 include '../db_connection.php';
 if (isset($_POST['login'])) {
     //Get login data from form and store them in respective variables
     $usernameOrEmail = $_POST["username/email"];
     $inputPassword = $_POST["password"];
-
 
     //Check if Username or Email already exists in the system
     $query = "SELECT UserID, Username, Email, Password FROM User WHERE Username = ? OR Email = ?";
@@ -42,3 +50,26 @@ if (isset($_POST['login'])) {
 }
 
 $conn->close();
+?>
+<body>
+    <li><a href="../index.php"> Home </a></li>
+    <li><a href="register.php"> Login / Register </a></li>
+    <li><a href="search.php"> Search </a></li>
+
+    <h2>Login Section</h2>
+    <form action="login.php" method="post">
+        <label for="username/email">Username or Email</label>
+        <input type="text" name="username/email" id="username/email" required>
+
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required>
+
+        <input name="login" type="submit" value="Login" />
+
+        <p>Don't have an account?
+            <a href="register.php"> Register here</a>
+        </p>
+    </form>
+</body>
+
+</html>
