@@ -19,7 +19,7 @@ if (isset($_POST['login'])) {
             //if there is a result with the matching username or email, run this: 
             if ($stmt->num_rows() == 1) {
                 //bind the 'outputs' of the SQL command to these variables respectively and fill them via fetch()
-                $stmt->bind_result($id, $username, $email, $password);
+                $stmt->bind_result($id, $username, $password, $email);
                 $stmt->fetch();
 
                 //check if the password entered matches the password in the database

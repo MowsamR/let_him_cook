@@ -1,3 +1,9 @@
+<?php
+      session_start();
+      if (isset($_SESSION["id"])) {
+        $username = $_SESSION["username"];
+      }
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -17,12 +23,7 @@
   
   </head>
     <body>
-      <?php
-      session_start();
-      if (isset($_SESSION["id"])) {
-        $username = $_SESSION["username"];
-      }
-      ?>
+
       <nav class="navbar navbar-expand-sm">
         <a class="navbar-brand">LHC</a>
         <div class="d-flex lhc-nav" id="navbarSupportedContent">
