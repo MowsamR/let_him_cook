@@ -46,7 +46,9 @@ if (isset($_POST['register'])) {
             //Run the SQL command
             if ($stmt->execute()) {
                 $stmt->store_result();
+                
                 if ($stmt->num_rows() > 0) {
+                    echo "none";
                     //bind the 'outputs' of the SQL command to these variables respectively and fill them via fetch()
                     $stmt->bind_result($id, $usernameResult, $emailResult);
                     $stmt->fetch();
@@ -55,6 +57,7 @@ if (isset($_POST['register'])) {
                     } elseif ($email === $emailResult) {
                         echo "Email is already taken.";
                     }
+                    
                 } else {
                     //If no errors so far, create a new User Record
                     $insertQuery = "INSERT INTO `user`(`Usename`, `Password`, `Email`)
@@ -70,6 +73,7 @@ if (isset($_POST['register'])) {
                     } else {
                         echo "Error: Could not insert user: " . $conn->error;
                     }
+                    
                 }
                 $insertStmt->close();
             } else {
@@ -85,28 +89,6 @@ $conn->close();
 ?>
 
 <body>
-    <!--
-    <h2>Registration Section</h2>
-    <form action="register.php" method="post">
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username" required>
-
-        <label for="email">Email Address</label>
-        <input type="text" name="email" id="email" required>
-
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" required>
-
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" name="confirmPassword" id="confirmPassword" required>
-
-        <input name="register" type="submit" value="Register" />
-
-        <p>Already a have an account?
-            <a href="login.php"> Login</a>
-        </p>
-    </form>
-    -->
     <h1 class="display-1 justify-content-center d-flex login-heading">LHC</h1>
     <div class="justify-content-center d-flex">
       <div class="col-4 login-form">
