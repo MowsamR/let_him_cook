@@ -1,5 +1,14 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
 <?php
 //Create connection to database
+session_start();
 include '../db_connection.php';
 if (isset($_POST['register'])) {
 
@@ -47,11 +56,12 @@ if (isset($_POST['register'])) {
                         $_SESSION['id'] = $id;
                         $_SESSION['username'] = $username;
                         header("Location: ../index.php");
+                        exit();
                     } else {
                         echo "Error: Could not insert user: " . $conn->error;
                     }
                 }
-                $insertQuery->close();
+                $insertStmt->close();
             } else {
                 echo "Error: Could not execute SQL Query: " . $conn->error;
             }
@@ -60,8 +70,35 @@ if (isset($_POST['register'])) {
         }
         $stmt->close();
     }
-} else {
-    header("Location: register.html");
-    exit();
-}
+} 
 $conn->close();
+?>
+
+<body>
+    <li><a href="../index.php"> Home </a></li>
+    <li><a href="register.php"> Login / Register </a></li>
+    <li><a href="search.php"> Search </a></li>
+
+    <h2>Registration Section</h2>
+    <form action="register.php" method="post">
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" required>
+
+        <label for="email">Email Address</label>
+        <input type="text" name="email" id="email" required>
+
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required>
+
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" name="confirmPassword" id="confirmPassword" required>
+
+        <input name="register" type="submit" value="Register" />
+
+        <p>Already a have an account?
+            <a href="login.php"> Login</a>
+        </p>
+    </form>
+</body>
+
+</html>
