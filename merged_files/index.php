@@ -38,7 +38,16 @@
               <a class="nav-link dishes-link-nav" href="#">Dishes</a>
             </li>
             <li class="nav-item d-flex justify-content-end dropdown">
-              <a class="nav-link dropdown-toggle" href="#">Username</a>
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Username
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Dashboard</a>
+                <a class="dropdown-item" href="#">Inventory</a>
+                <a class="dropdown-item" href="#">Logout</a>
+              </div>
+            </div>
             </li>
           </ul>
         </div>

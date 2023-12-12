@@ -16,11 +16,56 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;1,9..40,500&family=Poppins&display=swap" rel="stylesheet">
   
   </head>
+<?php
+//Create connection to database
+include 'php_scripts/db_connection.php';
+if (isset($_POST['login'])) {
+    //Get login data from form and store them in respective variables
+    $usernameOrEmail = $_POST["usernameInput"];
+    $inputPassword = $_POST["passwordInput"];
+
+
+    //Check if Username or Email already exists in the system
+    $query = "SELECT UserID, Usename, Password, Email FROM user WHERE Usename = ? OR Email = ?;";
+    //Prepare SQL Statement
+    if ($stmt = $conn->prepare($query)) {
+        $stmt->bind_param("ss", $usernameOrEmail, $usernameOrEmail);
+
+        //Run the SQL command
+        if ($stmt->execute()) {
+            $stmt->store_result();
+            //if there is a result with the matching username or email, run this: 
+            if ($stmt->num_rows() == 1) {
+                //bind the 'outputs' of the SQL command to these variables respectively and fill them via fetch()
+                $stmt->bind_result($id, $username, $password, $email);
+                $stmt->fetch();
+
+                //check if the password entered matches the password in the database
+                if ($inputPassword === $password) {
+                    session_start();
+                    $_SESSION['id'] = $id;
+                    $_SESSION['username'] = $username;
+                    header("Location: index.php");
+                } else {
+                    echo "Incorrect Password";
+                }
+            }
+        } else {
+            echo "Error: Could not execute SQL Query: " . $conn->error;
+        }
+    } else {
+        echo "Error: Could not prepare SQL Query: " . $conn->error;
+    }
+    $stmt->close();
+}
+
+$conn->close();
+?>
   <body>
     <h1 class="display-1 justify-content-center d-flex login-heading">LHC</h1>
     <div class="justify-content-center d-flex">
       <div class="col-4 login-form">
-        <form action="php_scripts/login_script.php" method="post">
+        <form action="login.php" method="post">
           <div class = "form-group">
             <label for="InputEmail" class="login-email-label">Email:</label>
             <input name="usernameInput"type="text" class="form-control" id="InputEmail">
