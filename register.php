@@ -38,7 +38,7 @@ if (isset($_POST['register'])) {
     //run else statement if no input errors so far
     else {
         //Check if Username or Email already exists in the system
-        $query = "SELECT UserID, Usename, Email FROM user WHERE Usename = ? OR Email = ?";
+        $query = "SELECT UserID, Username, Email FROM user WHERE Username = ? OR Email = ?;";
         //Prepare SQL Statement
         if ($stmt = $conn->prepare($query)) {
             $stmt->bind_param("ss", $username, $email);
@@ -48,7 +48,7 @@ if (isset($_POST['register'])) {
                 $stmt->store_result();
                 
                 if ($stmt->num_rows() > 0) {
-                    echo "none";
+                    
                     //bind the 'outputs' of the SQL command to these variables respectively and fill them via fetch()
                     $stmt->bind_result($id, $usernameResult, $emailResult);
                     $stmt->fetch();
@@ -60,20 +60,19 @@ if (isset($_POST['register'])) {
                     
                 } else {
                     //If no errors so far, create a new User Record
-                    $insertQuery = "INSERT INTO `user`(`Usename`, `Password`, `Email`)
-                                    VALUES (?, ?, ?)";
-                    $insertStmt = $conn->prepare($insertQuery);
-                    $insertStmt->bind_param("sss", $username, $password, $email);
-
-                    if ($insertStmt->execute()) {
+                    $insertQuery = "INSERT INTO `user`(`Username`, `Password`, `Email`)
+                                    VALUES (?, ?, ?);";         
+                    $insertStmt = $conn->prepare($insertQuery);                         
+                    $insertStmt->bind_param("sss", $username, $password, $email);         
+                    if ($insertStmt->execute()) {    
                         $_SESSION['id'] = $id;
                         $_SESSION['username'] = $username;
                         header("Location: index.php");
                         exit();
                     } else {
                         echo "Error: Could not insert user: " . $conn->error;
-                    }
-                    
+                    }      
+      
                 }
                 $insertStmt->close();
             } else {

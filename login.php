@@ -26,7 +26,7 @@ if (isset($_POST['login'])) {
 
 
     //Check if Username or Email already exists in the system
-    $query = "SELECT UserID, Usename, Password, Email FROM user WHERE Usename = ? OR Email = ?;";
+    $query = "SELECT UserID, Username, Password, Email FROM user WHERE Username = ? OR Email = ?;";
     //Prepare SQL Statement
     if ($stmt = $conn->prepare($query)) {
         $stmt->bind_param("ss", $usernameOrEmail, $usernameOrEmail);
