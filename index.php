@@ -10,6 +10,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Homepage</title>
+
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
 
@@ -25,19 +27,19 @@
     <body>
 
       <nav class="navbar navbar-expand-sm">
-        <a class="navbar-brand">LHC</a>
-        <div class="d-flex lhc-nav" id="navbarSupportedContent">
+        
+        <div class="lhc-nav" id="navbarSupportedContent">
+          <a class="navbar-brand">LHC</a>
+          <form class="form-inline">
+            <input class="form-control " type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+
           <ul class="navbar-nav">
-            <li>
-              <form class="form-inline">
-                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-              </form>
-            </li>
-            <li class="nav-item d-flex justify-content-end">
+            <li class="nav-item ">
               <a class="nav-link dishes-link-nav" href="#">Dishes</a>
             </li>
-            <li class="nav-item d-flex justify-content-end dropdown">
+            <li class="nav-item dropdown">
             <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <?php echo $username ?>
