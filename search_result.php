@@ -24,15 +24,15 @@
 	<body>
         
 		<nav class="navbar navbar-expand-md">
-			<a class="navbar-brand ms-3">LHC</a>
+			<a class="navbar-brand ms-3" href="index.php">LHC</a>
 			<div class="lhc-nav d-flex" id="navbarSupportedContent">
 				<ul class="navbar-nav ms-auto">
                     <li class="nav-item ">
-                        <form class="form-inline d-flex me-4">
+                        <form class="form-inline d-flex me-4" action="search_result.php" method="post">
                             <div class="form-group">
-                                <input class="form-control navbar-search-input" type="search" placeholder="Search" aria-label="Search">
+                                <input class="form-control navbar-search-input" type="search" id='Ingredient' name='Ingredient' aria-label="Search">
                             </div>
-                            <button class="btn btn-dark navbar-search-btn ms-2" type="submit">Search</button>
+                            <button name="Submit" class="btn btn-dark navbar-search-btn ms-2" type="submit">Search</button>
                         </form>
                     </li>
                     <li class="nav-item">
