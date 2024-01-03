@@ -23,36 +23,7 @@
     <?php include 'php_scripts/db_connection.php'; ?>
 	<body>
         
-		<nav class="navbar navbar-expand-md">
-			<a class="navbar-brand ms-3" href="index.php">LHC</a>
-			<div class="lhc-nav d-flex" id="navbarSupportedContent">
-				<ul class="navbar-nav ms-auto">
-                    <li class="nav-item ">
-                        <form class="form-inline d-flex me-4" action="search_result.php" method="post">
-                            <div class="form-group">
-                                <input class="form-control navbar-search-input" type="search" id='Ingredient' name='Ingredient' aria-label="Search">
-                            </div>
-                            <button name="Submit" class="btn btn-dark navbar-search-btn ms-2" type="submit">Search</button>
-                        </form>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link dishes-link-nav" href="#">Dishes</a>
-                    </li>
-                    <li class="nav-item justify-content-end dropdown mx-2">
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Username
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Dashboard</a>
-                            <a class="dropdown-item" href="#">Inventory</a>
-                            <a class="dropdown-item" href="#">Logout</a>
-                            </div>
-                        </div>
-                    </li>
-				</ul>
-			</div>
-		</nav>
+		<?php include 'nav.php'; ?> 
         
         <?php
             // When the user presses the submit button 

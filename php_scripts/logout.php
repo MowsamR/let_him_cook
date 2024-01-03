@@ -8,7 +8,7 @@ session_unset();
 session_destroy();
 
 //redirect the user to login page
-header("Location: index.php");
+header("Location: ../index.php");
 
 exit();
 
