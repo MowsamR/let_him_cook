@@ -37,11 +37,23 @@ label{
     font-family: poppins;
     font-size: 24px;
 }
+.auth-link {
+    color: white;
+    font-family: poppins;
+    font-size: 20px;
+}
+.auth-link a{
+    color: #005F50;
+}
+
 .login-email-label{
     margin-bottom: 0em;
 }
 .login-pass-label{
     margin-bottom: 0em;
+}
+.form-control {
+    border: 1.5px solid #007D6C;
 }
 
 /*index page*/
