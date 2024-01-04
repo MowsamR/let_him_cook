@@ -20,9 +20,11 @@ body{
 }
 .login-email-input{
     margin-top: 0em;
+    color: white;
 }
 .login-email-label{
     margin-top: 1em;
+    color: white;
 }
 .btn-login{
     margin-top: 2em;
@@ -33,7 +35,6 @@ body{
     font-size: 20px;
 }
 label{
-    color: white;
     font-family: poppins;
     font-size: 24px;
 }
@@ -48,9 +49,11 @@ label{
 
 .login-email-label{
     margin-bottom: 0em;
+    color: white;
 }
 .login-pass-label{
     margin-bottom: 0em;
+    color: white;
 }
 .form-control {
     border: 1.5px solid #007D6C;
@@ -102,4 +105,29 @@ label{
 .card-title h3{
     text-transform: uppercase;
     font-size: .8rem;
+}
+
+/*dashboard page*/
+.dashboard-email-label{
+    color: black;
+}
+.dashboard-pass-label{
+    color: black;
+}
+.dashboard-username-heading{
+    font-family: poppins;
+    font-size: 24px;
+}
+.btn-dashboard{
+    color: white;
+    font-family: poppins;
+    font-size: 20px;
+}
+
+.btn-dashboard-cancel {
+    background-color: #F03E31;
+}
+
+.btn-dashboard-save {
+    background-color: #007D6C;
 }

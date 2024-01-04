@@ -75,7 +75,7 @@
 
                 $number_of_rows = $ans->num_rows;
                 if($number_of_rows > 0){
-                    echo "<h2 class='search-result-heading ml-2'> Search results for '" .  $Ingredient. "'</h2>";
+                    echo "<h2 class='search-result-heading ms-3'> Search results for '" .  $Ingredient. "'</h2>";
                     // Output results of the SQL query (Pancakes and Cookies)
                     echo "<div class='search-cards-container'>";
                     while($data = $ans->fetch_assoc()){

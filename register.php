@@ -33,7 +33,7 @@ if (isset($_POST['register'])) {
     $confirmPassword = $_POST["confirmPassword"];
 
     //ERROR HANDLING:
-
+    $query = "SELECT UserID, Username, Email FROM user WHERE Username = ? OR Email = ?;";
     // Check if both passwords match
     if ($password != $confirmPassword) {
         echo "Password does not match.";
@@ -65,18 +65,17 @@ if (isset($_POST['register'])) {
                 } else {
                     //If no errors so far, create a new User Record
                     $insertQuery = "INSERT INTO `user`(`Username`, `Password`, `Email`)
-                                    VALUES (?, ?, ?);";         
+                                    VALUES (?, ?, ?);";     
                     $insertStmt = $conn->prepare($insertQuery);                         
                     $insertStmt->bind_param("sss", $username, $password, $email);         
                     if ($insertStmt->execute()) {    
-                        $_SESSION['id'] = $id;
-                        $_SESSION['username'] = $username;
-                        header("Location: index.php");
+                        //$_SESSION['id'] = $id;
+                        //$_SESSION['username'] = $username;
+                        header("Location: login.php");
                         exit();
                     } else {
                         echo "Error: Could not insert user: " . $conn->error;
-                    }      
-      
+                    }
                 }
                 $insertStmt->close();
             } else {
