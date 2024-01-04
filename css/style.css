@@ -103,3 +103,13 @@ label{
     text-transform: uppercase;
     font-size: .8rem;
 }
+
+/*search page*/
+.filter-card-body {
+    background-color: #da8270;
+    font-size: 20px;
+    margin: 15px;
+}
+.filter-options {
+    margin-bottom: 1.5rem;
+}
