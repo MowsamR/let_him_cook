@@ -32,23 +32,25 @@
 
   <div class="container-fluid">
     <div class="row m-5 justify-content-center">
-      <div class="w-70 input-group input-group-lg">
-        <input type="text" class="form-control p-3" placeholder="Search Dishes, Ingredients..." aria-label="searchFood" aria-describedby="searchButton">
+      <!-- ========== Search Box ========== -->
+      <form class="w-70 input-group input-group-lg" action="search_result.php" method="post">
+        <input type="text" class="form-control p-3" placeholder="Search Dishes, Ingredients..." aria-label="searchFood" aria-describedby="searchFood" id="searchFood" name="searchFood">
         <button class="btn btn-outline-secondary" type="button" id="searchButton">Search</button>
-        <button class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" type="button">Filter</button>
-      </div>
+        <button class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter" type="button">Filter</button>
+      </form>
     </div>
     <div class="row">
-      <!-- ========== Sidebar for Filter Options ========== -->
-      <div class="collapse" id="collapseExample">
+      <!-- ========== Collapsable Filter Options Section ========== -->
+      <div class="collapse" id="collapseFilter">
         <div class="card shadow filter-card-body">
           <div class="card-body ">
             <h3 class="card-title text-center">Filter Options</h3>
             <!-- ========== Change destination later ========== -->
-            <form action="test.php" method="get">
+            <!-- ========== Filter Form ========== -->
+            <form action="search_result.php" method="get">
               <!-- Cuisine Option: -->
               <label for="cuisineFilter" class="">Cuisine: </label>
-              <select class="form-select filter-options" id="cuisineFilter" aria-label="Default select example">
+              <select class="form-select filter-options" id="cuisineFilter" name="cuisineFilter" aria-label="cuisine filter option">
                 <option value="">Select Cuisine</option>
                 <option value="Indian">Indian</option>
                 <option value="Chinese">Chinese</option>
@@ -56,7 +58,7 @@
               </select>
               <!-- Preferences Option: -->
               <label for="preferences" class="">Preferences: </label>
-              <select class="form-select filter-options" id="preferences" aria-label="Default select example">
+              <select class="form-select filter-options" id="preferences" name="preferences" aria-label="preferences filter option">
                 <option value="">Select Preferences</option>
                 <option value="Vegan">Vegan</option>
                 <option value="Vegetarian">Vegetarian</option>
@@ -64,8 +66,10 @@
               </select>
               <!-- Serving Option: -->
               <label for="servingRange" class="form-label filter-options">Select Serving: </label>
-              <input type="range" class="form-range filter-options" id="servingRange" min="1" max="8" value="4">
+              <input type="range" class="form-range filter-options" id="servingRange" name="servingRange" min="1" max="8" value="4">
               <p>Serving: <span id="servingResult"></span></p>
+
+              <!-- Script for showing serving option chosen  -->
               <script>
                 var range = document.getElementById("servingRange");
                 var output = document.getElementById("servingResult");
@@ -75,10 +79,10 @@
                   output.innerHTML = this.value;
                 }
               </script>
+              <!-- Apply/Reset Buttons -->
               <div class="d-flex justify-content-end gap-3">
-
-                <button type="button" class="btn btn-success "> Apply Changes</button>
-                <button type="button" class="btn btn-danger"> Reset</button>
+                <button type="submit" class="btn btn-success" name="applyChanges"> Apply Changes</button>
+                <button type="submit" class="btn btn-danger" name="reset"> Reset</button>
               </div>
             </form>
 

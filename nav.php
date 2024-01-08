@@ -21,7 +21,7 @@ if (isset($_SESSION["id"])) {
         <li>
           <form class="form-inline d-flex me-4" action="search_result.php" method="POST">
             <div class="form-group">
-              <input class="form-control navbar-search-input" type="search" id='Ingredient' name='Ingredient' aria-label="Search">
+              <input class="form-control navbar-search-input" type="search" id='searchFood' name='searchFood' aria-label="Search">
             </div>
             <button class="btn btn-dark navbar-search-btn ms-2" name="Submit" type="submit" required>Search</button>
           </form>

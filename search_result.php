@@ -28,56 +28,91 @@
     <?php include 'nav.php'; ?>
 
     <?php
-    // When the user presses the submit button 
-    if (isset($_POST['Dish'])) {
-        // Variables to store user input
-        $Dish = $_POST['Dish'];
+        //if user clicks on Apply changes button in filter section, only then run the below instructions
+        if (isset($_GET['applyChanges'])) {
+            $selectedCuisineOption = $_GET['cuisineFilter'];
+            $selectedPreferencesOption = $_GET['preferences'];
+            $selectedServingRange = $_GET['servingRange'];
+            //main SQL query
+            $filterQuery = "SELECT * FROM dishes WHERE 1=1";
+            //
+            if (!empty($selectedCuisineOption)) {
+                //append this to main SQL query
+                $filterQuery .= "AND Cuisine = '$selectedCuisineOption'";
+            }
+            if (!empty($selectedPreferencesOption)) {
+                //append this to main SQL query
+                $filterQuery .= "AND  = '$selectedPreferencesOption'";
+            }
+            if (!empty($selectedServingRange)) {
+                //append this to main SQL query
+                $filterQuery .= "AND Cuisine = '$selectedServingRange'";
+            }
 
-        //SQL query to covert Name into the ID number
-        $parse = $conn->prepare("SELECT dishes.DishesId FROM dishes WHERE dishes.Name  = ? ");
-        $parse->bind_param("s", $Dish);
-        $parse->execute();
-        $conv = $parse->get_result();
-        while ($row = $conv->fetch_assoc()) {
-            $id =  $row['DishesId'] . "<br> \n";
+            //NOTE: Prepared statements not required in filter section. Because user's can't type, SQL injection is not possible.
+            //Hence, used normal query() rather than execute() and get_result()
+            $ans = $conn->query($filterQuery);
         }
+    ?>
+    <?php
+        // When the user presses the submit button 
+        if (isset($_POST['Dish'])) {
+            // Variables to store user input
+            $Dish = $_POST['Dish'];
 
-        // Used for the SQL query above. HOW? - prepared statements?
-        $stmt = $conn->prepare("SELECT * FROM ingredients INNER JOIN ingredients_dishes ON ingredients.IngredientID = ingredients_dishes.IngredientID WHERE ingredients_dishes.DishID = ?");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $outocme = $stmt->get_result();
+            //SQL query to covert Name into the ID number
+            $parse = $conn->prepare("SELECT dishes.DishesId FROM dishes WHERE dishes.Name  = ? ");
+            $parse->bind_param("s", $Dish);
+            $parse->execute();
+            $conv = $parse->get_result();
+            while ($row = $conv->fetch_assoc()) {
+                $id =  $row['DishesId'] . "<br> \n";
+            }
 
-        // Output results of the SQL query (Eggs and Plain Flour)
-        while ($row = $outocme->fetch_assoc()) {
-            echo $row['Name'] . "<br> \n";
+            // Used for the SQL query above. HOW? - prepared statements?
+            $stmt = $conn->prepare("SELECT * FROM ingredients INNER JOIN ingredients_dishes ON ingredients.IngredientID = ingredients_dishes.IngredientID WHERE ingredients_dishes.DishID = ?");
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $outocme = $stmt->get_result();
+
+            // Output results of the SQL query (Eggs and Plain Flour)
+            while ($row = $outocme->fetch_assoc()) {
+                echo $row['Name'] . "<br> \n";
+            }
         }
-    }
+    ?>
 
-    // When the user presses the submit button 
-    if (isset($_POST['Ingredient'])) {
-        // Variables to store user input
-        $Ingredient = $_POST['Ingredient'];
+    <?php
+        // When the user presses the submit button 
+        if (isset($_POST['searchFood'])) {
+            // Variables to store user input
+            $Ingredient = $_POST['searchFood'];
 
-        //SQL query to covert Name into the ID number
-        $parse = $conn->prepare("SELECT ingredients.IngredientID FROM ingredients WHERE ingredients.Name = ? ");
-        $parse->bind_param("s", $Ingredient);
-        $parse->execute();
-        $conv = $parse->get_result();
+            //SQL query to covert Name into the ID number
+            $parse = $conn->prepare("SELECT ingredients.IngredientID, ingredients.Name FROM ingredients WHERE ingredients.Name LIKE ? ");
 
-        while ($row = $conv->fetch_assoc()) {
-            $id =  $row['IngredientID'] . "<br> \n";
-        }
+            $Ingredient = "%" . $Ingredient . "%";
+            $parse->bind_param("s", $Ingredient);
+            $parse->execute();
+            $conv = $parse->get_result();
 
-        // Used for the SQL query above. HOW? - prepared statements?
-        $ingSearch = $conn->prepare("SELECT * FROM dishes INNER JOIN ingredients_dishes ON dishes.DishesId = ingredients_dishes.DishID WHERE ingredients_dishes.IngredientID = ?");
-        $ingSearch->bind_param("i", $id);
-        $ingSearch->execute();
-        $ans = $ingSearch->get_result();
+            while ($row = $conv->fetch_assoc()) {
+                $id =  $row['IngredientID'] . "<br> \n";
+                $ingredientName =  $row['Name'];
+            }
 
+            // Used for the SQL query above. HOW? - prepared statements?
+            $ingSearch = $conn->prepare("SELECT * FROM dishes INNER JOIN ingredients_dishes ON dishes.DishesId = ingredients_dishes.DishID WHERE ingredients_dishes.IngredientID = ?");
+            $ingSearch->bind_param("i", $id);
+            $ingSearch->execute();
+            $ans = $ingSearch->get_result();
+    ?>
+
+    <!-- ========== PHP code for Displaying results ========== -->
+    <?php
         $number_of_rows = $ans->num_rows;
         if ($number_of_rows > 0) {
-            echo "<h2 class='search-result-heading ml-2'> Search results for '" .  $Ingredient . "'</h2>";
+            echo "<h2 class='search-result-heading ml-2'> Search results for '" .  $ingredientName . "'</h2>";
             // Output results of the SQL query (Pancakes and Cookies)
             echo "<div class='search-cards-container'>";
             while ($data = $ans->fetch_assoc()) {
