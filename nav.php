@@ -19,7 +19,7 @@ if (isset($_SESSION["id"])) {
       <ul class="navbar-nav ms-auto">
         <!-- Search Bar -->
         <li>
-          <form class="form-inline d-flex me-4" action="search_result.php" method="POST">
+          <form class="form-inline d-flex me-3 w-100" action="search_result.php" method="POST">
             <div class="form-group">
               <input class="form-control navbar-search-input" type="search" id='searchFood' name='searchFood' aria-label="Search">
             </div>
@@ -31,14 +31,15 @@ if (isset($_SESSION["id"])) {
         </li>
 
         <!-- If user is logged in, show relevant previlaged actions (Check dashboard, inventory, logout, etc) -->
-        <?php if ($loggedin == true) : ?>
+        <?php if ($loggedin == true) :?>
+        <div class="vr"></div>
         <li class="nav-item justify-content-end dropdown mx-2">        
           <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle justify-content-end dropdown mx-2" type="button"data-bs-toggle="dropdown" aria-expanded="false">
               <?php echo "{$username}";?>
             </button>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Dashboard</a>
+              <a class="dropdown-item" href="profile.php">Edit Profile</a>
               <a class="dropdown-item" href="#">Inventory</a>
               <a class="dropdown-item" href="php_scripts/logout.php">Log out</a>
             </div>
