@@ -9,8 +9,9 @@
           -->
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+      
       <link rel="stylesheet" href="css/style.css">
-
+    
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300&family=Poppins&display=swap" rel="stylesheet">
@@ -68,7 +69,7 @@
   <body>
     <h1 class="display-1 justify-content-center d-flex login-heading">LHC</h1>
     <div class="justify-content-center d-flex">
-      <div class="col-4 login-form">
+      <div class="col-10 col-sm-10 col-md-7 col-lg-6 col-xl-5 col-xxl-5 login-form">
         <form action="login.php" method="post">
           <div class = "form-group">
             <label for="InputEmail" class="login-email-label">Email:</label>
@@ -79,7 +80,7 @@
             <input name="passwordInput"type="password" class="form-control login-password-input" id="InputPassword">      
           </div>
           <div class="d-flex justify-content-end">
-            <button name="login" type="submit" class="btn col-4 btn-login">Login</button>
+            <button name="login" type="submit" class="btn btn-light col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-4 btn-login">Login</button>
           </div>
         </form>
 

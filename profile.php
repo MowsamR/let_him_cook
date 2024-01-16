@@ -75,6 +75,31 @@
         }
     }
 
+    if(isset($_POST['savePassword'])){
+        $current_password = $_POST['currentPasswordInput'];
+        $new_password = $_POST['newPasswordInput'];
+        $new_password_confirmation = $_POST['newPasswordConfirmInput'];
+
+        $do_passwords_match = true;
+        $is_current_password_correct = false;
+        if($new_password == $new_password_confirmation){
+            if($current_password == $password){
+                $is_current_password_correct = true;
+                $updateQuery = "UPDATE user
+                SET Password = ?
+                WHERE UserID = ?;";
+                if($stmt = $conn->prepare($updateQuery)) {
+                    $stmt->bind_param("si", $new_password, $_SESSION["id"]);
+                    if ($stmt->execute()) {
+                        $password = $new_password;
+                        $password_changed_successfully = true;
+                    } 
+                }
+            }
+        }else{
+            $do_passwords_match = false;
+        }
+    }
     ?>
     <body>
         <?php include 'nav.php'?>
@@ -99,19 +124,19 @@
                     </div>
                     <hr>
                     <div class = "form-group">
-                        <label for="InputPassword" class="dashboard-pass-label">Current password:</label>
-                        <input name="passwordUpdateInput"type="password" class="form-control dashboard-pass-input" id="InputPassword">      
+                        <label for="currentPassword" class="dashboard-pass-label">Current password:</label>
+                        <input name="currentPasswordInput"type="password" class="form-control dashboard-pass-input" id="currentPassword">      
                     </div>
                     <div class = "form-group mt-3">
-                        <label for="InputPassword" class="dashboard-pass-label">New password:</label>
-                        <input name="passwordUpdateInput"type="password" class="form-control dashboard-pass-input" id="InputPassword">      
+                        <label for="oldPassword" class="dashboard-pass-label">New password:</label>
+                        <input name="newPasswordInput"type="password" class="form-control dashboard-pass-input" id="oldPassword">      
                     </div>
                     <div class = "form-group mt-3">
-                        <label for="InputPassword" class="dashboard-pass-label">Confirm new password:</label>
-                        <input name="passwordUpdateInput"type="password" class="form-control dashboard-pass-input" id="InputPassword">      
+                        <label for="oldPasswordConfirm" class="dashboard-pass-label">Confirm new password:</label>
+                        <input name="newPasswordConfirmInput"type="password" class="form-control dashboard-pass-input" id="oldPasswordConfirm">      
                     </div>      
                     <div class="d-flex justify-content-end mt-4">
-                        <button name="passwordUpdateInput" type="save" class="btn col-4 col-md-5 col-xs-10 btn-dashboard btn-dashboard-save mt-0">Save password</button>
+                        <button name="savePassword" type="save" class="btn col-4 col-md-5 col-xs-10 btn-dashboard btn-dashboard-save mt-0">Save password</button>
                     </div>
                 </form>
             </div>
