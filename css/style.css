@@ -2,81 +2,100 @@
 
 body{
     /*background-color: #FFE5D9;*/
-    background-color: #007D6C;
+    background-color: #A1EEBD;
 }
-/*login page*/
-.login-heading{
-    margin-top: 1em;
-    margin-bottom: 1em;
+/*login and register page */
+.login-register-heading{
     font-family: 'DM Sans';
-    color: #FFFFFF;
+    color: #2D3035;
 }
-.login-form{
+.login-register-homelink{
+    text-decoration: underline;
+    color: #2D3035;
+}
+.login-register-form{
     background-color: #FFFFFF;
-    margin-top: 0;
-    border-radius: 25px;
-    padding-left: 3%;
-    padding-right: 3%;
+    border-radius: 10px;
+    border: 1px solid #88cba1;
+    box-shadow: 0px 5px 15px #538265b9;
 }
-.login-email-input{
-    margin-top: 0em;
-    color: white;
+.login-register-labels{
+    font-family: "poppins";
+    color: #2D3035;
 }
-.login-email-label{
-    margin-top: 1em;
-    color: white;
+.login-register-input{
+    color: black;
+    border: 1px solid #2D3035;
 }
 .btn-login{
-    margin-top: 2em;
-    margin-bottom: 1em;
-    background-color: #007D6C;
-    color: white;
+    background-color: #5FBDFF;
+    color: #ffffff;
     font-family: poppins;
     font-size: 20px;
+}
+.btn-login:hover{
+    background-color: #50b2f9;
+    color: #ffffff;
 }
 label{
     font-family: poppins;
     font-size: 24px;
 }
-.auth-link {
-    color: white;
-    font-family: poppins;
-    font-size: 20px;
-}
-.auth-link a{
-    color: #005F50;
-}
-
-.login-email-label{
-    margin-bottom: 0em;
-    color: white;
-}
-.login-pass-label{
-    margin-bottom: 0em;
-    color: white;
-}
-.form-control {
-    border: 1.5px solid #007D6C;
-}
-
-/*index page*/
+/* navbar */
 .navbar{
-    background-color: #007D6C;
+    background-color: #2D3035;
 }
 .navbar-brand{
     color: white;
 }
+.navbar-brand:hover{
+    text-decoration: underline;
+    color: white;
+}
 .lhc-nav{
+    font-family: 'DM Sans';
     width: 100%;
 }
 .navbar-search-input{
     display: inline-block;
     width: 100%;
 }
+.nav-search-btn{
+    background-color: #5FBDFF;
+    
+    font-family: poppins;  
+}
+.nav-search-btn:hover{
+    background-color: #50b2f9;
+    
+    font-family: poppins;  
+}
 .nav-link{
+    font-family: poppins;
     text-decoration: none;
     color: white;
 }
+.nav-link:hover{
+    text-decoration: underline;
+    color: rgba(255, 255, 255, 0.878);
+}
+.vr{
+    background-color: white;
+    color: white;
+}
+.nav-dropdown-btn{
+    background-color: #5FBDFF;
+}
+.nav-dropdown-btn:hover{
+    background-color: #50b2f9;
+}
+.nav-dropdown-btn:focus{
+    background-color: #50b2f9;
+}
+.navbar-toggler{
+    background-color: white;
+}
+/* index page */
 .carousel-item{
     height: 500px;
 }
@@ -107,7 +126,7 @@ label{
     font-size: .8rem;
 }
 
-/*dashboard page*/
+/*profile page*/
 .dashboard-email-label{
     color: black;
 }
@@ -130,4 +149,14 @@ label{
 
 .btn-dashboard-save {
     background-color: #007D6C;
+}
+
+@media only screen and (max-width: 576px) {
+    /*login page*/
+    label{
+        font-size: 18px;
+    }
+    .navbar-search-btn{
+        font-size: 14px;        
+    }
 }

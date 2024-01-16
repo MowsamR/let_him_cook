@@ -91,28 +91,28 @@ $conn->close();
 ?>
 
 <body>
-    <h1 class="display-1 justify-content-center d-flex login-heading">LHC</h1>
-    <div class="justify-content-center d-flex">
-      <div class="col-4 login-form">
+    <h1 class="display-1 justify-content-center d-flex login-register-heading mt-5"><a class="login-register-homelink "href="index.php">Let Him Cook</a></h1>
+    <div class="d-flex justify-content-center mt-5">
+      <div class="login-register-form col-10 col-sm-10 col-md-7 col-lg-6 col-xl-5 col-xxl-5 mt-0 ps-4 pe-4">
         <form action="register.php" method="post">
           <div class = "form-group">
-            <label for="username" class="login-email-label">Username:</label>
-            <input type="text" name="username" class="form-control" id="username" required>
+            <label for="username" class="login-register-labels mt-4">Username:</label>
+            <input type="text" name="username" class="form-control login-register-input" id="username" required>
           </div>
           <div class = "form-group">
-            <label for="email" class="login-pass-label">Email:</label>
-            <input type="email" name="email" class="form-control login-email-label" id="email" required>      
+            <label for="email" class="login-register-labels mt-3">Email:</label>
+            <input type="email" name="email" class="form-control login-register-input" id="email" required>      
           </div>
           <div class = "form-group">
-            <label for="password" class="login-pass-label">Password:</label>
-            <input type="password" name="password" class="form-control login-password-input" id="password" required>      
+            <label for="password" class="login-register-labels mt-3">Password:</label>
+            <input type="password" name="password" class="form-control login-register-input" id="password" required>      
           </div>
           <div class = "form-group">
-            <label for="confirmPassword" class="login-pass-label">Re-enter Password:</label>
-            <input type="password" name="confirmPassword" class="form-control login-password-input" id="confirmPassword" required>      
+            <label for="confirmPassword" class="login-register-labels mt-3">Re-enter Password:</label>
+            <input type="password" name="confirmPassword" class="form-control login-register-input" id="confirmPassword" required>      
           </div>
-          <div class="d-flex justify-content-end">
-            <button name="register" type="submit" class="btn col-4 btn-login">Register</button>
+          <div class="d-flex justify-content-end mt-5 mb-3">
+            <button name="register" type="submit" class="btn btn-login col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-4">Register</button>
           </div>
         </form>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

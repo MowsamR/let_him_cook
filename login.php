@@ -67,23 +67,25 @@
     $conn->close();
   ?>
   <body>
-    <h1 class="display-1 justify-content-center d-flex login-heading">LHC</h1>
-    <div class="justify-content-center d-flex">
-      <div class="col-10 col-sm-10 col-md-7 col-lg-6 col-xl-5 col-xxl-5 login-form">
+    <h1 class="display-1 d-flex justify-content-center login-register-heading mt-5"><a class="login-register-homelink" href="index.php">Let Him Cook</a></h1>
+    <div class="d-flex justify-content-center mt-5">
+      <div class="login-register-form col-10 col-sm-10 col-md-7 col-lg-6 col-xl-5 col-xxl-5 mt-0 ps-4 pe-4">
         <form action="login.php" method="post">
           <div class = "form-group">
-            <label for="InputEmail" class="login-email-label">Email:</label>
-            <input name="usernameInput"type="text" class="form-control" id="InputEmail">
+            <label for="InputEmail" class="login-register-labels mt-4">Username:</label>
+            <input name="usernameInput"type="text" class="form-control login-register-input mt-1" id="InputEmail" placeholder="Enter your username">
           </div>
           <div class = "form-group">
-            <label for="InputPassword" class="login-pass-label">Password:</label>
-            <input name="passwordInput"type="password" class="form-control login-password-input" id="InputPassword">      
+            <label for="InputPassword" class="login-register-labels mt-3">Password:</label>
+            <input name="passwordInput"type="password" class="form-control login-register-input mt-1" id="InputPassword" placeholder="Enter your password">      
           </div>
-          <div class="d-flex justify-content-end">
-            <button name="login" type="submit" class="btn btn-light col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-4 btn-login">Login</button>
+          <div class="d-flex justify-content-end mt-5 mb-3">
+            <button name="login" type="submit" class="btn btn-login col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-4 ">Login</button>
+          </div>
+          <div class="d-flex justify-content-center mt-1 mb-0">
+          <p>Not a memeber? <a href="register.php">register</a></p>
           </div>
         </form>
-
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
