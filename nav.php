@@ -1,12 +1,4 @@
-<?php
-session_start();
-if (isset($_SESSION["id"])) {
-  $username = $_SESSION["username"];
-  $loggedin = true;
-} else {
-  $loggedin = false;
-}
-?>
+
 
 <nav class="navbar navbar-expand-md navbar-expand-lg navbar-expand-xl navbar-expand-xxl">
   <div class="container mx-auto my-1">
