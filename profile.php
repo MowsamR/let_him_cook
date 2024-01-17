@@ -81,7 +81,7 @@
         $new_password_confirmation = $_POST['newPasswordConfirmInput'];
 
         $do_passwords_match = true;
-        $is_current_password_correct = false;
+        $is_current_password_correct = true;
         if($new_password == $new_password_confirmation){
             if($current_password == $password){
                 $is_current_password_correct = true;
@@ -95,6 +95,8 @@
                         $password_changed_successfully = true;
                     } 
                 }
+            }else{
+                $is_current_password_correct = false;
             }
         }else{
             $do_passwords_match = false;
@@ -104,15 +106,15 @@
     <body>
         <?php include 'nav.php'?>
         
-        <h1 class="display-3 d-flex ms-3">Edit profile</h1>
+        <h1 class="display-3 d-flex mt-3 ms-5">Edit profile</h1>
         <div class="d-flex justify-content-center">
-            <div class="col-6">
-                <p class="dashboard-username-heading mb-0">Username:</p>
-                <h5 class="mt-0 ms-2"><?php echo $username;?></h5>
-                <form action="" method="post">
-                    <div class = "form-group mb-0 ">
-                        <label for="InputEmail" class="dashboard-email-label">Email:</label> 
-                        <input name="emailUpdateInput" type="text" class="form-control dashboard-email-input" id="emailUpdateInput" value="<?php echo $email;?>">
+            <div class="login-register-form col-10 col-sm-10 col-md-7 col-lg-8 col-xl-5 col-xxl-5 px-4 py-3">    
+                <p class="dashboard-username-heading mt-2 mb-0">Username:</p>
+                <h5 class="mt-0 ms-1"><?php echo $username;?></h5>
+                <form action="" method="post" class="">
+                    <div class = "form-group mb-0">
+                        <label for="InputEmail" class="login-register-labels mt-2">Email:</label> 
+                        <input name="emailUpdateInput" type="text" class="form-control col-10 login-register-input" id="emailUpdateInput" value="<?php echo $email;?>">
                         <?php if($emailchangedsuccessfully == true): ?>
                             <p>email changed successfully</p>
                         <?php elseif($emailIsRepeated == true): ?>
@@ -120,28 +122,28 @@
                         <?php endif; ?>
                     </div>
                     <div class="d-flex justify-content-end mb-4 mt-4">
-                        <button name="saveEmail" type="save" class="btn col-4 col-md-5 btn-dashboard btn-dashboard-save mt-0">Save email</button>
+                        <button name="saveEmail" type="save" class="btn col-12 col-md-6 col-lg-5 col-xl-5 col-xxl-5 btn-dashboard btn-dashboard-save mt-0">Save email</button>
                     </div>
                     <hr>
                     <div class = "form-group">
-                        <label for="currentPassword" class="dashboard-pass-label">Current password:</label>
-                        <input name="currentPasswordInput"type="password" class="form-control dashboard-pass-input" id="currentPassword">      
+                        <label for="currentPassword" class="login-register-labels">Current password:</label>
+                        <input name="currentPasswordInput"type="password" class="form-control login-register-input" id="currentPassword">      
                     </div>
                     <div class = "form-group mt-3">
-                        <label for="oldPassword" class="dashboard-pass-label">New password:</label>
-                        <input name="newPasswordInput"type="password" class="form-control dashboard-pass-input" id="oldPassword">      
+                        <label for="oldPassword" class="login-register-labels">New password:</label>
+                        <input name="newPasswordInput"type="password" class="form-control login-register-input" id="oldPassword">      
                     </div>
                     <div class = "form-group mt-3">
-                        <label for="oldPasswordConfirm" class="dashboard-pass-label">Confirm new password:</label>
-                        <input name="newPasswordConfirmInput"type="password" class="form-control dashboard-pass-input" id="oldPasswordConfirm">      
+                        <label for="oldPasswordConfirm" class="login-register-labels">Confirm new password:</label>
+                        <input name="newPasswordConfirmInput"type="password" class="form-control login-register-input" id="oldPasswordConfirm">      
                     </div>      
                     <div class="d-flex justify-content-end mt-4">
-                        <button name="savePassword" type="save" class="btn col-4 col-md-5 col-xs-10 btn-dashboard btn-dashboard-save mt-0">Save password</button>
+                        <button name="savePassword" type="save" class="btn btn-dashboard btn-dashboard-save col-12 col-md-6 col-lg-5 col-xl-5 col-xxl-5  mt-0">Save password</button>
                     </div>
                 </form>
+                
             </div>
         </div>
-
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     </body>
 </html>

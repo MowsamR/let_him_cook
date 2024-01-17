@@ -1,8 +1,8 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css");
 
 body{
-    /*background-color: #FFE5D9;*/
-    background-color: #A1EEBD;
+    /*background-color: #A1EEBD; a1eebdb2*/
+    background-color: #a1eebdb2;
 }
 /*login and register page */
 .login-register-heading{
@@ -28,14 +28,15 @@ body{
     border: 1px solid #2D3035;
 }
 .btn-login{
-    background-color: #5FBDFF;
-    color: #ffffff;
+    color: white;
+    background-color: #007D6C;
+    /*background-color: #5FBDFF;*/
     font-family: poppins;
     font-size: 20px;
 }
 .btn-login:hover{
-    background-color: #50b2f9;
-    color: #ffffff;
+    color: white;
+    background-color: #016457;
 }
 label{
     font-family: poppins;
@@ -61,13 +62,15 @@ label{
     width: 100%;
 }
 .nav-search-btn{
-    background-color: #5FBDFF;
-    
+    color: white;
+    background-color: #007D6C;
+    /*background-color: #5FBDFF;*/
     font-family: poppins;  
 }
 .nav-search-btn:hover{
-    background-color: #50b2f9;
-    
+    color: white;
+    background-color: #016457;
+    /*background-color: #50b2f9;*/
     font-family: poppins;  
 }
 .nav-link{
@@ -84,35 +87,34 @@ label{
     color: white;
 }
 .nav-dropdown-btn{
-    background-color: #5FBDFF;
+    color: white;
+    background-color: #007D6C;
+    /*background-color: #5FBDFF;*/
 }
 .nav-dropdown-btn:hover{
-    background-color: #50b2f9;
+    color: white;
+    background-color: #016457;
+    /*background-color: #50b2f9;*/    
 }
 .nav-dropdown-btn:focus{
-    background-color: #50b2f9;
+    color: white;
+    background-color: #007D6C;
+    /*background-color: #5FBDFF;*/
 }
 .navbar-toggler{
-    background-color: white;
+    background-color: #A1EEBD;
 }
 /* index page */
 .carousel-item{
     height: 500px;
 }
 .carousel-indicators{
-    background-color: #E3664E;
+    background-color: #2D3035;
     opacity: 80%;
 }
-.index-heading{
-    margin-top: 10px;
-    margin-bottom: 30px;
-    margin-left: 100px;
+.index-card-style{
+    box-shadow: 0px 5px 15px #538265b9;
 }
-.card-style{
-    width: 22.22%;
-    height: 300px;
-}
-
 /*search result page*/
 .search-card-img{
     width: 100%;
@@ -125,7 +127,18 @@ label{
     text-transform: uppercase;
     font-size: .8rem;
 }
-
+.index-card-btn{
+    color: white;
+    background-color: #007D6C;
+    /*background-color: #5FBDFF;*/
+    font-family: poppins;  
+}
+.index-card-btn:hover{
+    color: white;
+    background-color: #016457;
+    /*background-color: #50b2f9;*/    
+    font-family: poppins;  
+}
 /*profile page*/
 .dashboard-email-label{
     color: black;
@@ -142,15 +155,14 @@ label{
     font-family: poppins;
     font-size: 20px;
 }
-
-.btn-dashboard-cancel {
-    background-color: #F03E31;
-}
-
 .btn-dashboard-save {
+    color: white;
     background-color: #007D6C;
 }
-
+.btn-dashboard-save:hover {
+    color: white;
+    background-color: #016457;
+}
 @media only screen and (max-width: 576px) {
     /*login page*/
     label{
