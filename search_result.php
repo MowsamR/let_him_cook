@@ -220,7 +220,8 @@
                                         <h4 class='card-title  mb-3'><i class="bi bi-clock"></i> <strong><?php echo $data['Duration'] ?></strong></h4>
                                     </div>
                                     <div class='d-flex mt-auto flex-row-reverse'>
-                                        <button class='btn btn-dark mt-auto' type='button'>Open recipe</button>
+                                        <a href="dishpage.php?dishID=<?php echo $data['DishesId']; ?>
+                                        " class='btn btn-dark mt-auto' type='button'>Open recipe</a>
                                     </div>
                                 </div>
                             </div>
