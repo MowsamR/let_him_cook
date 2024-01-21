@@ -25,7 +25,7 @@
     <?php include 'nav.php'; ?>
 
     <?php
-    
+    // Get the information data about the particular dish
     if (isset($_GET['dishID'])) {
         $dishID = $_GET['dishID'];
         //Retrieve Dish Data with the same DishesID primary key
@@ -40,7 +40,6 @@
                     //bind the 'outputs' of the SQL command to these variables respectively and fill them via fetch()
                     $statement->bind_result($dishID, $dishName, $Duration, $Serves, $Cuisine);
                     $statement->fetch();
-                    echo $dishID . $dishName . $Duration;
                 }
             }
         } else {
@@ -53,7 +52,20 @@
 
 
     <div class="container">
-        <h1></h1>
+        <hr class="black-divider">
+        <h1 class="text-center"><?php echo $dishName ?></h1>
+        <hr class="black-divider">
+
+        <div class="row mt-5">
+            <div class="col-8">
+                <img class="dish-image" src="img/Cookies.jpg" alt="Cookies">
+            </div>
+            <div class="col-4">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur tenetur nobis assumenda corrupti aperiam voluptas ipsam fuga maiores ipsa totam.</p>
+            </div>
+        </div>
+
+
     </div>
 
 

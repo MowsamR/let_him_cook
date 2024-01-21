@@ -19,11 +19,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;1,9..40,500&family=Poppins&display=swap" rel="stylesheet">
-    <style>
-        div.card * {
-            border: 1px solid red;
-        }
-    </style>
+
 </head>
 <?php include 'php_scripts/db_connection.php'; ?>
 
@@ -40,17 +36,17 @@
                 <button class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter" type="button">Filter</button>
             </form>
         </div>
-        <div class="row">
+        <div class="row col-10 mx-auto">
             <!-- ========== Collapsable Filter Options Section ========== -->
             <div class="collapse" id="collapseFilter">
                 <div class="card shadow filter-card-body">
-                    <div class="card-body ">
+                    <div class="card-body px-5 ">
                         <h3 class="card-title text-center">Filter Options</h3>
                         <!-- ========== Change destination later ========== -->
                         <!-- ========== Filter Form ========== -->
                         <form action="search_result.php" method="GET">
                             <!-- Cuisine Option: -->
-                            <label for="cuisineFilter" class="">Cuisine: </label>
+                            <label for="cuisineFilter ps-4" class="cuisine ps-4">Cuisine: </label>
                             <select class="form-select filter-options" id="cuisineFilter" name="cuisineFilter" aria-label="cuisine filter option">
                                 <option value="">Select Cuisine</option>
                                 <option value="Indian">Indian</option>
@@ -58,7 +54,7 @@
                                 <option value="Italian">Italian</option>
                             </select>
                             <!-- Preferences Option: -->
-                            <label for="preferences" class="">Preferences: </label>
+                            <label for="preferences" class=" ps-4">Preferences: </label>
                             <select class="form-select filter-options" id="preferences" name="preferences" aria-label="preferences filter option">
                                 <option value="">Select Preferences</option>
                                 <option value="Vegan">Vegan</option>
@@ -66,7 +62,7 @@
                                 <option value="Halal">Halal</option>
                             </select>
                             <!-- Serving Option: -->
-                            <label for="servingRange" class="form-label filter-options">Select Serving: </label>
+                            <label for="servingRange" class="form-label filter-options ps-4">Select Serving: </label>
                             <input type="range" class="form-range filter-options" id="servingRange" name="servingRange" min="1" max="8" value="1">
                             <p>Serving: <span id="servingResult"></span> or less</p>
 

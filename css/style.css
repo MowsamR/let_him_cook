@@ -140,3 +140,13 @@ label{
 .btn-dashboard-save {
     background-color: #007D6C;
 }
+
+/* dish page */
+.black-divider {
+    border: 2px solid rgb(0, 0, 0);
+}
+
+.dish-image {
+    max-width: 100%;
+    max-height: 500px;
+}
