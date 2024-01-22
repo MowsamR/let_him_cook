@@ -74,7 +74,7 @@
 
                 $number_of_rows = $ans->num_rows;
                 if($number_of_rows > 0){
-                    echo "<h2 class='search-result-heading ms-3'> Search results for '" .  $Ingredient. "'</h2>";
+                    echo "<h2 class='search-result-heading mt-2 ms-3'> Search results for '" .  $Ingredient. "'</h2>";
                     // Output results of the SQL query (Pancakes and Cookies)
                     echo "<div class='search-cards-container'>";
                     while($data = $ans->fetch_assoc()){
@@ -86,25 +86,29 @@
                             </div>";
                         */
             ?>
-                    <div class='row justify-content-evenly'>
+                    <div class='row justify-content-evenly me-0'>
                         <div class='col-10'>
                             <div class='card search-card-style mb-3'>
-                                
                                 <div class='row g-0'>
                                     <div class='col-12 col-md-5 col-lg-3 col-xl-3 col-xxl-3'>
                                         <img src='img/<?php echo $data['Name']?>.jpg' class='card-img search-card-img img-fluid rounded-start' alt='first image'/>
                                     </div>
-                                    <div class='col-12 col-md-5 col-lg-9 col-xl-9 col-xxl-9'>
-                                        <div class='card-body mb-auto d-flex flex-column'>
+                                    <div class='col-12 col-md-7 col-lg-9 col-xl-9 col-xxl-9'>
+                                        <div class='card-body mb-auto'>
                                             <div class='h-100'>
                                                 <p class='card-text mb-0'><i class="bi bi-people-fill"></i> Serves</p>
                                                 <h2 class='card-title mb-0'><?php echo $data['Name'] ?></h2>
                                                 <p class='card-text ms-1 mt-0'>Short description</p>
-                                                <h4 class='card-title  mb-3'><i class="bi bi-clock"></i> <strong><?php echo $data['Duration'] ?></strong></h4>
+                                                <h4 class='card-title mb-3'><i class="bi bi-clock"></i> <strong><?php echo $data['Duration'] ?></strong></h4>
+                                                <div class="mt-auto ms-auto">
+                                                    <a href="" class="btn index-card-btn col-2">Open recipe</a>
+                                                </div>
                                             </div>
-                                            <div class='d-flex mt-auto ms-auto'>
-                                                <button class='btn btn-login mt-auto' type='button'>Open recipe</button>
+                                            <!--
+                                            <div class='mt-auto ms-auto'>
+                                                <button class='btn btn-login' type='button'>Open recipe</button>
                                             </div>
+                                            -->
                                         </div>
                                     </div>
                                 </div>

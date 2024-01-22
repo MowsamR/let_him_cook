@@ -1,12 +1,4 @@
-<?php
-session_start();
-if (isset($_SESSION["id"])) {
-  $username = $_SESSION["username"];
-  $loggedin = true;
-} else {
-  $loggedin = false;
-}
-?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -58,7 +50,7 @@ if (isset($_SESSION["id"])) {
 
       <div class="d-lg-flex justify-content-center">
 
-        <div class="card index-card-style col-10 col-lg-3 mx-auto mt-4">
+        <div class="card index-card-style col-10 col-md-8 col-lg-3 mx-auto mt-4">
           <img src="img/Pancakes.jpg" class="card-img-top" alt="card 1">
           <p class='card-text mb-0 ms-2 mt-1'><i class="bi bi-people-fill"></i> Serves</p>
           <div class="card-body">
@@ -71,7 +63,7 @@ if (isset($_SESSION["id"])) {
           </div>
         </div>
     
-        <div class="card index-card-style col-10 col-lg-3 mx-auto mt-4">
+        <div class="card index-card-style col-10 col-md-8 col-lg-3 mx-auto mt-4">
           <img src="img/Pancakes.jpg" class="card-img-top" alt="card 2" >
           <p class='card-text mb-0 ms-2 mt-1'><i class="bi bi-people-fill"></i> Serves</p>
           <div class="card-body">
@@ -84,7 +76,7 @@ if (isset($_SESSION["id"])) {
           </div>
         </div>
 
-        <div class="card index-card-style col-10 col-lg-3 mx-auto mt-4">
+        <div class="card index-card-style col-10 col-md-8 col-lg-3 mx-auto mt-4">
           <img src="img/Pancakes.jpg" class="card-img-top" alt="card 3">
           <p class='card-text mb-0 ms-2 mt-1'><i class="bi bi-people-fill"></i> Serves</p>
           <div class="card-body">
