@@ -144,7 +144,7 @@
 			</div>			
 		</div>
 		
-		<?php
+	<?php
 		if(isset($_POST['Recommend'])) { 	 
 			global $conn, $invParam;
 			echo "Button clicked";
@@ -155,11 +155,11 @@
 			$sugguest->store_result();
 			$reccomendation = $sugguest->get_result();
 		
-			if ($recommendation -> num_rows > 0){
+			if ($reccomendation -> num_rows > 0){
 				echo '<table class="table">';
 				echo "You have the ingredients to make the following dishes:";
 				echo "<tr><th>Dishes</th>";
-				while ($row = $result->fetch_assoc()) {
+				while ($row = $reccomendation->fetch_assoc()) {
 				echo "<tr><td>{$row['DishName']}</td></tr>";
 			}
 			echo "</table>";
@@ -167,11 +167,8 @@
 			else{
 				echo "No available dishes";
 			}
-		} 
-		
+		} 	
 		$conn->close();
-
-
 	?>
 	
 </body>
