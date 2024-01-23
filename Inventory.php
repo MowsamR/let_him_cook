@@ -19,22 +19,15 @@
   </head>
 
 <body>
-<h1>Inventory</h1>
-
-</div>
-
-
-
-
-
+<?php include 'nav.php';?>
+	<h1>Inventory</h1>
 <?php 
-	include 'nav.php';
+	
 	include "php_scripts/db_connection.php";
 	
 	$username = $_SESSION["username"];
 	$invParam = "";
-	echo $username;
-	
+
 	//Display the user's current inventory
 	$showInv = $conn->prepare("SELECT i.Name AS IngredientName, ii.Quantity AS QuantityInInventory FROM user u JOIN inventory inv ON u.UserID = inv.UserID JOIN inventory_ingredients ii ON inv.InventoryID = ii.InventoryID JOIN ingredients i ON ii.IngredientID = i.IngredientID WHERE u.Username = ?");
 	$showInv->bind_param("s",$username);
@@ -42,23 +35,33 @@
 	$showInv->store_result();
 	
 	if ($showInv -> num_rows > 0){
-		echo '<table class="table ms-5 py-2 px-2 col-4">';
-		echo "'s inventory";
-		echo "<tr><th>Ingredient</th><th>Quantity</th>";
+		echo "<div class='container'>";
+		echo '<table class="table py-2 px-2 col-4">';
+		echo "<thead>
+				<tr>
+					<th class='col'>Ingredient</th>
+					<th class='col'>Quantity</th>
+				</tr>
+			</thead>";
+		echo "<tbody>";
 		$showInv->bind_result($ingredientName, $quantityInInventory);
         while ($showInv->fetch()) {
-            echo "<tr><td>{$ingredientName}</td><td>{$quantityInInventory}</td></tr>";
+            echo"
+			<tr>
+				<th scope='row'> " . $ingredientName . "</th>
+				<td>" . $quantityInInventory . "</td>
+
+			</tr>";
         }
+		echo "</tbody>";
         echo "</table>";
+		echo "</div>";
     } 
 	else {
         echo "<p>No inventory data available.</p>";
     }
 
     $showInv->free_result();
-	
-	
-	
 	
 	// Get UserID of current user
 	$currentID = $conn->prepare("SELECT user.UserID FROM user WHERE user.Username = ?");
@@ -115,7 +118,27 @@
 		}
 	} 
 	
-	
+?>
+<hr>
+<div class="d-flex justify-content-center">
+	<div class="mx-auto mx-auto py-2 px-2 col-4">
+		<form method="post" action="Inventory.php">
+			<div class = "form-group">
+			<label for="Ingredient" class="login-register-labels">Ingredient:</label>
+			<input type="text" name="Ingredient" class=" form-control login-register-input col-12" required>
+			</div>
+			<div class = "form-group">
+			<label for="Quantity" class="login-register-labels">Quantity:</label>
+			<input type="text" name="Quantity" class = "form-control login-register-input col-12" required>
+			</div>
+			<div class="d-flex justify-content-end mt-4 mb-3">
+				<input type="submit" class="btn btn-login ms-auto col-5" value="Submit">	
+			</div>
+			
+		</form>
+	</div>
+</div>
+<?php
 	if(array_key_exists('Recommend', $_POST)) { 
 		Recommend(); 
 	} 
@@ -148,20 +171,8 @@
 
 ?>
 
+	
 
-	<form method="post" action="Inventory.php" class = "login-register-form ms-5 py-2 px-2 col-4 login-form">
-		<div class = "form-group">
-		<label for="Ingredient" class="login-register-labels">Ingredient:</label>
-        <input type="text" name="Ingredient" class=" form-control login-register-input" required>
-		</div>
-		<div class = "form-group">
-        <label for="Quantity" class="login-register-labels">Quantity:</label>
-        <input type="text" name="Quantity" class = "form-control login-register-input" required>
-        </div>
-		
-		<input type="submit" class="btn btn-login" value="Submit">	
-		<input type="button" name="Recommend" class="btn btn-login" value="Recommend"/> 
-    </form>
 </body>
 </html>
 
