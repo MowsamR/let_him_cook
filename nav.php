@@ -55,7 +55,7 @@ if (isset($_SESSION["id"])) {
             </button>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" href="profile.php">Edit Profile</a>
-              <a class="dropdown-item" href="#">Inventory</a>
+              <a class="dropdown-item" href="Inventory.php">Inventory</a>
               <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#followers_modal">Followers</a>
               <a class="dropdown-item" href="php_scripts/logout.php">Log out</a>
             </div>
