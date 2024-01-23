@@ -36,8 +36,9 @@
 		
 		<input type="submit" class="btn btn-login" value="Submit">	
 </form>
-<form>
-	<input type="button" name="Recommend" class="btn btn-login" value="Recommend"/> 
+
+<form method="post" action="Inventory.php">
+	<input type="submit" name="Recommend" class="btn btn-login" value="Recommend"/> 
 </form>
 
 
@@ -54,7 +55,6 @@
 	$showInv = $conn->prepare("SELECT i.Name AS IngredientName, ii.Quantity AS QuantityInInventory FROM user u JOIN inventory inv ON u.UserID = inv.UserID JOIN inventory_ingredients ii ON inv.InventoryID = ii.InventoryID JOIN ingredients i ON ii.IngredientID = i.IngredientID WHERE u.Username = ?");
 	$showInv->bind_param("s",$username);
 	$showInv->execute();
-	$showInv->store_result();
 	
 	if ($showInv -> num_rows > 0){
 		echo '<table class="table ms-5 py-2 px-2 col-6">';
@@ -68,12 +68,9 @@
 	else {
         echo "<p>No inventory data available.</p>";
     }
+	
+	$showInv->free_result();
 
-    $showInv->free_result();
-	
-	
-	
-	
 	// Get UserID of current user
 	$currentID = $conn->prepare("SELECT user.UserID FROM user WHERE user.Username = ?");
 	$currentID->bind_param("s",$username);
@@ -128,8 +125,6 @@
 			echo "Ingredient not found";
 		}
 	} 
-	
-	
 	if(isset($_POST['Recommend'])) { 	 
 		global $conn, $invParam;
 		echo "Button clicked";
@@ -140,11 +135,11 @@
 		$sugguest->store_result();
 		$reccomendation = $sugguest->get_result();
 	
-		if ($recommendation -> num_rows > 0){
+		if ($reccomendation -> num_rows > 0){
 			echo '<table class="table">';
 			echo "You have the ingredients to make the following dishes:";
 			echo "<tr><th>Dishes</th>";
-			while ($row = $result->fetch_assoc()) {
+			while ($row = $reccomendation->fetch_assoc()) {
             echo "<tr><td>{$row['DishName']}</td></tr>";
         }
         echo "</table>";
@@ -152,7 +147,9 @@
 		else{
 			echo "No available dishes";
 		}
-    } 
+    } 	
+	
+
 	
 	$conn->close();
 
