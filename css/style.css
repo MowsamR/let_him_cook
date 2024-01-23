@@ -127,6 +127,28 @@ label {
     background-color: #A1EEBD;
 }
 
+.modal-unfollow-btn{
+    font-family: poppins;  
+    color: white;
+    background-color: #2D3035;
+}
+.modal-unfollow-btn:hover{
+    color: white;
+    background-color: #272a2e;
+    /*background-color: #50b2f9;*/    
+}
+.modal-follow-btn{
+    font-family: poppins;  
+    color: #2D3035;
+    background-color: white;
+    border-color: #2D3035;
+}
+.modal-follow-btn:hover{
+    color: #2D3035;
+    background-color: rgb(233, 233, 233);
+    border-color: #2D3035;
+    /*background-color: #50b2f9;*/    
+}
 /* index page */
 .carousel-item {
     height: 500px;
@@ -221,8 +243,10 @@ label {
     label {
         font-size: 18px;
     }
-
-    .navbar-search-btn {
+    .navbar-search-btn{
+        font-size: 14px;        
+    }
+    .btn-login{
         font-size: 14px;
     }
 }

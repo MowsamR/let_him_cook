@@ -1,4 +1,12 @@
-
+<?php
+session_start();
+if (isset($_SESSION["id"])) {
+  $username = $_SESSION["username"];
+  $loggedin = true;
+} else {
+  $loggedin = false;
+}
+?>
 
 <nav class="navbar navbar-expand-md navbar-expand-lg navbar-expand-xl navbar-expand-xxl">
   <div class="container mx-auto my-1">
@@ -14,7 +22,7 @@
         <!-- Search Bar -->
         <li class="nav-item">
           <form class="form-inline w-100 d-flex
-          mx-1
+          mx-auto
           me-lg-4 me-xl-3 me-xxl-3
           mt-3 mt-md-0 mt-lg-0 mt-xl-0 mt-xxl-0"
           action="search_result.php" method="POST">
@@ -48,6 +56,7 @@
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" href="profile.php">Edit Profile</a>
               <a class="dropdown-item" href="#">Inventory</a>
+              <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#followers_modal">Followers</a>
               <a class="dropdown-item" href="php_scripts/logout.php">Log out</a>
             </div>
           </div>
@@ -75,4 +84,89 @@
       
     </div>
   </div>
+  
 </nav>
+
+<!-- Followers modal -->
+<?php 'php_scripts/db_connection.php'; ?>
+<div class="modal fade modal-fullscreen-sm-down" id="followers_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Followers</div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        
+        <form class="form-inline d-md-flex d-lg-flex d-xl-flex d-xxl-flex" action="show_user_search.php" method="POST" id="user_search_form">
+            <div class="form-group col-12 col-md-8 col-lg-9 col-xl-9 col-xxl-9">
+              <input class="form-control navbar-search-input" type="search" id='user_to_find' name='user_to_find' aria-label="Search" placeholder="Search for a user">
+            </div> 
+            <button class="btn nav-search-btn col-12 col-md-4 col-lg-3 col-xl-3 col-xxl-3
+                        ms-0 ms-md-1 ms-lg-1 ms-xl-1 ms-xxl-1 mt-3 mt-md-0 mt-lg-0 mt-xl-0 mt-xxl-0"
+                         type="submit" name="search_user">
+                          Search
+            </button>
+        </form>
+
+        <hr>
+        <?php
+          include "php_scripts/db_connection.php";
+
+          $followed_user_id = $_SESSION["id"]; 
+          $query = "SELECT FollowedID, FollowerID FROM followers WHERE FollowedID = ?;";
+          
+          if ($stmt = $conn->prepare($query)) {
+              
+              $stmt->bind_param("i", $followed_user_id);
+              
+              if ($stmt->execute()) {
+                  $result = $stmt->get_result();
+                  $query_result = $result->num_rows;
+                  
+                  if ($query_result > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                      
+                      $follower_id = $row["FollowerID"];
+                      $follower_username_query = "SELECT Username FROM user WHERE UserID = ?";
+                      
+                      $follower_stmt = $conn->prepare($follower_username_query);
+                      
+                      if ($follower_stmt) {
+                        
+                        $follower_stmt->bind_param("i", $follower_id);
+                        if ($follower_stmt->execute()) {
+                          $follower_stmt->bind_result($follower_username);
+                          $follower_stmt->fetch();
+                          echo "
+                                <div class='d-flex mt-3'>          
+                                  <h4 class='col-6'>" . $follower_username . "</h4>
+                                  <button class='btn modal-unfollow-btn col-5 ms-auto' id='unfollowUser" . $follower_id . "' onclick='unfollowUser($follower_id, $followed_user_id)'>Unfollow</button>
+                                </div>
+                                ";
+                        } else {
+                          echo "Error executing the follower username query: " . $follower_stmt->error;
+                        }
+                        $follower_stmt->close();
+                      } else {  
+                        echo "Error preparing the follower username statement: " . $conn->error;
+                      }
+                    }
+                  }
+              } else {
+                  echo "Error executing the followers query: " . $stmt->error;
+              }
+
+              $stmt->close();
+          } else {
+              // Handle the error here
+              echo "Error preparing the followers statement: " . $conn->error;
+          }
+          // Close the database connection
+          $conn->close();
+        ?>   
+      </div>
+    </div>
+  </div>
+</div>
+<script src="javascript/unfollowAndFollow.js"></script>

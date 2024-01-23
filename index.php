@@ -1,12 +1,3 @@
-<?php
-session_start();
-if (isset($_SESSION["id"])) {
-  $username = $_SESSION["username"];
-  $loggedin = true;
-} else {
-  $loggedin = false;
-}
-?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -28,6 +19,7 @@ if (isset($_SESSION["id"])) {
   </head>
   <body>
       <?php include 'nav.php';?>
+
       <div id="homepage-carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#homepage-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -58,7 +50,7 @@ if (isset($_SESSION["id"])) {
 
       <div class="d-lg-flex justify-content-center">
 
-        <div class="card index-card-style col-10 col-lg-3 mx-auto mt-4">
+        <div class="card index-card-style col-10 col-md-8 col-lg-3 mx-auto mt-4">
           <img src="img/Pancakes.jpg" class="card-img-top" alt="card 1">
           <p class='card-text mb-0 ms-2 mt-1'><i class="bi bi-people-fill"></i> Serves</p>
           <div class="card-body">
@@ -71,7 +63,7 @@ if (isset($_SESSION["id"])) {
           </div>
         </div>
     
-        <div class="card index-card-style col-10 col-lg-3 mx-auto mt-4">
+        <div class="card index-card-style col-10 col-md-8 col-lg-3 mx-auto mt-4">
           <img src="img/Pancakes.jpg" class="card-img-top" alt="card 2" >
           <p class='card-text mb-0 ms-2 mt-1'><i class="bi bi-people-fill"></i> Serves</p>
           <div class="card-body">
@@ -84,7 +76,7 @@ if (isset($_SESSION["id"])) {
           </div>
         </div>
 
-        <div class="card index-card-style col-10 col-lg-3 mx-auto mt-4">
+        <div class="card index-card-style col-10 col-md-8 col-lg-3 mx-auto mt-4">
           <img src="img/Pancakes.jpg" class="card-img-top" alt="card 3">
           <p class='card-text mb-0 ms-2 mt-1'><i class="bi bi-people-fill"></i> Serves</p>
           <div class="card-body">
@@ -97,6 +89,7 @@ if (isset($_SESSION["id"])) {
           </div>
         </div>
       </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   </body>
