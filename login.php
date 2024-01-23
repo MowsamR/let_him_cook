@@ -52,6 +52,7 @@
                         $_SESSION['username'] = $username;
                         header("Location: index.php");
                     } else {
+                        $incorrect_pass = true;
                         echo "Incorrect Password";
                     }
                 }
