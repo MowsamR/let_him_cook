@@ -19,7 +19,6 @@
   </head>
 
 <body>
-<?php include 'nav.php';?>
 <h1>Inventory</h1>
 
 </div>
@@ -27,37 +26,17 @@
 
 
 
-<?php
-	$hostname = "localhost";
-	$db_name = "let_him_cook";
-	$username = "root";
-	$password = "";
-	$port = 3306;
-	
-	mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-	try{
-	    $db_connection = new mysqli($hostname, $username, $password, $db_name, $port);
-	    $charset  = 'utf8mb4';
-	    $db_connection->set_charset($charset);
-	} catch (\mysqli_sql_exception $e){
-	    echo "An exception occurred when trying to connect to the database";
-	    throw new \mysqli_sql_exception($e->getMessage(), $e->getCode());
-	}
-	unset($hostname, $db_name, $username, $password, $charset, $port); 
-	if ($db_connection -> connect_errno){
-	    echo "Failed to connect to a valid MySQL Database " . $db_connection -> connect_err;
-	    exit();
-	}
-
-?>
 
 <?php 
+	include 'nav.php';
+	include "php_scripts/db_connection.php";
+	
 	$username = $_SESSION["username"];
 	$invParam = "";
 	echo $username;
 	
 	//Display the user's current inventory
-	$showInv = $db_connection->prepare("SELECT i.Name AS IngredientName, ii.Quantity AS QuantityInInventory FROM user u JOIN inventory inv ON u.UserID = inv.UserID JOIN inventory_ingredients ii ON inv.InventoryID = ii.InventoryID JOIN ingredients i ON ii.IngredientID = i.IngredientID WHERE u.Usename = ?");
+	$showInv = $conn->prepare("SELECT i.Name AS IngredientName, ii.Quantity AS QuantityInInventory FROM user u JOIN inventory inv ON u.UserID = inv.UserID JOIN inventory_ingredients ii ON inv.InventoryID = ii.InventoryID JOIN ingredients i ON ii.IngredientID = i.IngredientID WHERE u.Username = ?");
 	$showInv->bind_param("s",$username);
 	$showInv->execute();
 	$showInv->store_result();
@@ -82,7 +61,7 @@
 	
 	
 	// Get UserID of current user
-	$currentID = $db_connection->prepare("SELECT user.UserID FROM user WHERE user.Usename = ?");
+	$currentID = $conn->prepare("SELECT user.UserID FROM user WHERE user.Username = ?");
 	$currentID->bind_param("s",$username);
 	$currentID->execute();
 	if ($currentID->error){	
@@ -105,7 +84,7 @@
 		$Quantity = $_POST["Quantity"];
 		
 		//Get IngredientID of Ingredient
-		$ingID = $db_connection->prepare("SELECT ingredients.IngredientID FROM ingredients WHERE ingredients.Name = ?;");
+		$ingID = $conn->prepare("SELECT ingredients.IngredientID FROM ingredients WHERE ingredients.Name = ?;");
 		$ingID->bind_param("s",$Ingredient);
 		$ingID->execute();
 		$equals = $ingID->get_result();
@@ -114,7 +93,7 @@
 		// Verify Ingredient exists 
 		if ($ingParam){
 			//Get the Inventory ID of a given user		
-			$stmt = $db_connection->prepare("SELECT inventory.InventoryID FROM inventory WHERE inventory.UserID = ?;");
+			$stmt = $conn->prepare("SELECT inventory.InventoryID FROM inventory WHERE inventory.UserID = ?;");
 			$stmt->bind_param("i",$id);
 			$stmt->execute();
 			$outocme = $stmt->get_result();
@@ -123,7 +102,7 @@
 			// Verify Inventory ID exists
 			if ($invParam){
 				//Add Ingredient to user's Inventory
-				$addIng = $db_connection->prepare("INSERT INTO inventory_ingredients (inventory_ingredients.InventoryID, inventory_ingredients.IngredientID, inventory_ingredients.Quantity) VALUES (?,?,?);");
+				$addIng = $conn->prepare("INSERT INTO inventory_ingredients (inventory_ingredients.InventoryID, inventory_ingredients.IngredientID, inventory_ingredients.Quantity) VALUES (?,?,?);");
 				$addIng->bind_param("iii",$invParam["InventoryID"],$ingParam["IngredientID"],$Quantity);
 				$addIng->execute();
 				echo "Ingredient: $Ingredient has been added <br>";
@@ -141,10 +120,10 @@
 		Recommend(); 
 	} 
 	function Recommend() { 
-		global $db_connection, $invParam;
+		global $conn, $invParam;
 		echo "Button clicked";
 		// Recommend dishes that use only ingrediens in the user's inventory
-		$sugguest = $db_connection->prepare("SELECT DISTINCT d.Name AS DishName FROM dishes d JOIN ingredients_dishes id ON d.DishesId = id.DishID JOIN ingredients i ON id.IngredientID = i.IngredientID JOIN inventory_ingredients ii ON i.IngredientID = ii.IngredientID WHERE ii.InventoryID = ?");
+		$sugguest = $conn->prepare("SELECT DISTINCT d.Name AS DishName FROM dishes d JOIN ingredients_dishes id ON d.DishesId = id.DishID JOIN ingredients i ON id.IngredientID = i.IngredientID JOIN inventory_ingredients ii ON i.IngredientID = ii.IngredientID WHERE ii.InventoryID = ?");
 		$sugguest->bind_param("s",$invParam);
 		$sugguest->execute();
 		$sugguest->store_result();
@@ -164,7 +143,7 @@
 		}
     } 
 	
-	$db_connection->close();
+	$conn->close();
 
 
 ?>
