@@ -19,21 +19,36 @@
   </head>
 
 <body>
-<h1>Inventory</h1>
+<?php include 'nav.php'; ?>
 
-</div>
+<h1 class = "ms-5">Inventory </h1>
 
+
+<form method="post" action="Inventory.php" class = "login-register-form ms-5 py-2 px-2 col-4 login-form">
+		<div class = "form-group">
+		<label for="Ingredient" class="login-register-labels">Ingredient:</label>
+        <input type="text" name="Ingredient" class=" form-control login-register-input" required>
+		</div>
+		<div class = "form-group">
+        <label for="Quantity" class="login-register-labels">Quantity:</label>
+        <input type="text" name="Quantity" class = "form-control login-register-input" required>
+        </div>
+		
+		<input type="submit" class="btn btn-login" value="Submit">	
+</form>
+<form>
+	<input type="button" name="Recommend" class="btn btn-login" value="Recommend"/> 
+</form>
 
 
 
 
 <?php 
-	include 'nav.php';
+	
 	include "php_scripts/db_connection.php";
 	
 	$username = $_SESSION["username"];
 	$invParam = "";
-	echo $username;
 	
 	//Display the user's current inventory
 	$showInv = $conn->prepare("SELECT i.Name AS IngredientName, ii.Quantity AS QuantityInInventory FROM user u JOIN inventory inv ON u.UserID = inv.UserID JOIN inventory_ingredients ii ON inv.InventoryID = ii.InventoryID JOIN ingredients i ON ii.IngredientID = i.IngredientID WHERE u.Username = ?");
@@ -42,8 +57,7 @@
 	$showInv->store_result();
 	
 	if ($showInv -> num_rows > 0){
-		echo '<table class="table ms-5 py-2 px-2 col-4">';
-		echo "'s inventory";
+		echo '<table class="table ms-5 py-2 px-2 col-6">';
 		echo "<tr><th>Ingredient</th><th>Quantity</th>";
 		$showInv->bind_result($ingredientName, $quantityInInventory);
         while ($showInv->fetch()) {
@@ -78,7 +92,7 @@
 	
 	// Check if the form fields are set
 	if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Ingredient"]) && isset($_POST["Quantity"])){
-		
+
 		// Retrieve data from the form
 		$Ingredient = $_POST["Ingredient"];
 		$Quantity = $_POST["Quantity"];
@@ -116,10 +130,7 @@
 	} 
 	
 	
-	if(array_key_exists('Recommend', $_POST)) { 
-		Recommend(); 
-	} 
-	function Recommend() { 
+	if(isset($_POST['Recommend'])) { 	 
 		global $conn, $invParam;
 		echo "Button clicked";
 		// Recommend dishes that use only ingrediens in the user's inventory
@@ -127,9 +138,9 @@
 		$sugguest->bind_param("s",$invParam);
 		$sugguest->execute();
 		$sugguest->store_result();
-		$recommendations->store_result();
+		$reccomendation = $sugguest->get_result();
 	
-		if ($recommendations -> num_rows > 0){
+		if ($recommendation -> num_rows > 0){
 			echo '<table class="table">';
 			echo "You have the ingredients to make the following dishes:";
 			echo "<tr><th>Dishes</th>";
@@ -149,19 +160,7 @@
 ?>
 
 
-	<form method="post" action="Inventory.php" class = "login-register-form ms-5 py-2 px-2 col-4 login-form">
-		<div class = "form-group">
-		<label for="Ingredient" class="login-register-labels">Ingredient:</label>
-        <input type="text" name="Ingredient" class=" form-control login-register-input" required>
-		</div>
-		<div class = "form-group">
-        <label for="Quantity" class="login-register-labels">Quantity:</label>
-        <input type="text" name="Quantity" class = "form-control login-register-input" required>
-        </div>
-		
-		<input type="submit" class="btn btn-login" value="Submit">	
-		<input type="button" name="Recommend" class="btn btn-login" value="Recommend"/> 
-    </form>
+	
 </body>
 </html>
 
