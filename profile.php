@@ -22,7 +22,6 @@
     
   </head>
   <?php 
-    session_start();
     include 'php_scripts/db_connection.php';
     $query = "SELECT Username, Password, Email FROM user WHERE Username = ?";
 

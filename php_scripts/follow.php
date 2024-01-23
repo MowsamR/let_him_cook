@@ -1,5 +1,4 @@
 <?php
-error_log('Script is executing here', 0);
 include "db_connection.php";
 
 $response = ['success' => false];
