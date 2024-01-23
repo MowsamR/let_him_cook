@@ -1,144 +1,230 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css");
 
-body{
-    /*background-color: #FFE5D9;*/
-    background-color: #FFF4F3;
+body {
+    /*background-color: #A1EEBD; a1eebdb2*/
+    background-color: #a1eebdb2;
 }
-/*login page*/
-.login-heading{
-    margin-top: 1em;
-    margin-bottom: 1em;
+
+/*login and register page */
+.login-register-heading {
     font-family: 'DM Sans';
-    color: #007D6C;
+    color: #2D3035;
 }
-.login-form{
-    background-color: #E3664E;
-    margin-top: 0;
-    border-radius: 25px;
-    padding-left: 3%;
-    padding-right: 3%;
+
+.login-register-homelink {
+    text-decoration: underline;
+    color: #2D3035;
 }
-.login-email-input{
-    margin-top: 0em;
+
+.login-register-form {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    border: 1px solid #88cba1;
+    box-shadow: 0px 5px 15px #538265b9;
+}
+
+.login-register-labels {
+    font-family: "poppins";
+    color: #2D3035;
+}
+
+.login-register-input {
+    color: black;
+    border: 1px solid #2D3035;
+}
+
+.btn-login {
     color: white;
-}
-.login-email-label{
-    margin-top: 1em;
-    color: white;
-}
-.btn-login{
-    margin-top: 2em;
-    margin-bottom: 1em;
     background-color: #007D6C;
-    color: white;
+    /*background-color: #5FBDFF;*/
     font-family: poppins;
     font-size: 20px;
 }
-label{
+
+.btn-login:hover {
+    color: white;
+    background-color: #016457;
+}
+
+label {
     font-family: poppins;
     font-size: 24px;
 }
-.auth-link {
-    color: white;
-    font-family: poppins;
-    font-size: 20px;
-}
-.auth-link a{
-    color: #005F50;
+
+/* navbar */
+.navbar {
+    background-color: #2D3035;
 }
 
-.login-email-label{
-    margin-bottom: 0em;
+.navbar-brand {
     color: white;
-}
-.login-pass-label{
-    margin-bottom: 0em;
-    color: white;
-}
-.form-control {
-    border: 1.5px solid #007D6C;
 }
 
-/*index page*/
-.navbar{
-    background-color: #007D6C;
-}
-.navbar-brand{
+.navbar-brand:hover {
+    text-decoration: underline;
     color: white;
 }
-.lhc-nav{
+
+.lhc-nav {
+    font-family: 'DM Sans';
     width: 100%;
 }
-.navbar-search-input{
+
+.navbar-search-input {
     display: inline-block;
     width: 100%;
 }
-.nav-link{
+
+.nav-search-btn {
+    color: white;
+    background-color: #007D6C;
+    /*background-color: #5FBDFF;*/
+    font-family: poppins;
+}
+
+.nav-search-btn:hover {
+    color: white;
+    background-color: #016457;
+    /*background-color: #50b2f9;*/
+    font-family: poppins;
+}
+
+.nav-link {
+    font-family: poppins;
     text-decoration: none;
     color: white;
 }
-.carousel-item{
+
+.nav-link:hover {
+    text-decoration: underline;
+    color: rgba(255, 255, 255, 0.878);
+}
+
+.vr {
+    background-color: white;
+    color: white;
+}
+
+.nav-dropdown-btn {
+    color: white;
+    background-color: #007D6C;
+    /*background-color: #5FBDFF;*/
+}
+
+.nav-dropdown-btn:hover {
+    color: white;
+    background-color: #016457;
+    /*background-color: #50b2f9;*/
+}
+
+.nav-dropdown-btn:focus {
+    color: white;
+    background-color: #007D6C;
+    /*background-color: #5FBDFF;*/
+}
+
+.navbar-toggler {
+    background-color: #A1EEBD;
+}
+
+/* index page */
+.carousel-item {
     height: 500px;
 }
-.carousel-indicators{
-    background-color: #E3664E;
+
+.carousel-indicators {
+    background-color: #2D3035;
     opacity: 80%;
 }
-.index-heading{
-    margin-top: 10px;
-    margin-bottom: 30px;
-    margin-left: 100px;
-}
-.card-style{
-    width: 22.22%;
-    height: 300px;
+
+.index-card-style {
+    box-shadow: 0px 5px 15px #538265b9;
 }
 
 /*search result page*/
-.search-card-img{
+.search-card-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-bottom-right-radius: 0px;
 }
 
-.card-title h3{
+.card-title h3 {
     text-transform: uppercase;
     font-size: .8rem;
 }
 
 /*search page*/
+.green-divider {
+    border: 2px solid  #00ff5e;
+}
+
 .filter-card-body {
-    background-color: #da8270;
+    background-color: #2D3035;
     font-size: 20px;
     margin: 15px;
+    color: #A1EEBD;
 }
+
 .filter-options {
     margin-bottom: 1.5rem;
 }
+
 /*dashboard page*/
-.dashboard-email-label{
+.index-card-btn {
+    color: white;
+    background-color: #007D6C;
+    /*background-color: #5FBDFF;*/
+    font-family: poppins;
+}
+
+.index-card-btn:hover {
+    color: white;
+    background-color: #016457;
+    /*background-color: #50b2f9;*/
+    font-family: poppins;
+}
+
+/*profile page*/
+.dashboard-email-label {
     color: black;
 }
-.dashboard-pass-label{
+
+.dashboard-pass-label {
     color: black;
 }
-.dashboard-username-heading{
+
+.dashboard-username-heading {
     font-family: poppins;
     font-size: 24px;
 }
-.btn-dashboard{
+
+.btn-dashboard {
     color: white;
     font-family: poppins;
     font-size: 20px;
 }
 
-.btn-dashboard-cancel {
-    background-color: #F03E31;
+.btn-dashboard-save {
+    color: white;
+    background-color: #007D6C;
 }
 
-.btn-dashboard-save {
-    background-color: #007D6C;
+.btn-dashboard-save:hover {
+    color: white;
+    background-color: #016457;
+}
+
+@media only screen and (max-width: 576px) {
+
+    /*login page*/
+    label {
+        font-size: 18px;
+    }
+
+    .navbar-search-btn {
+        font-size: 14px;
+    }
 }
 
 /* dish page */
@@ -149,4 +235,5 @@ label{
 .dish-image {
     max-width: 100%;
     max-height: 500px;
+    border-radius: 10px;
 }

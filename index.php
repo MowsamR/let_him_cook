@@ -12,7 +12,7 @@ if (isset($_SESSION["id"])) {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Homepage</title>
+    <title>Let Him Cook</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 		<link rel="stylesheet" href="css/style.css">
@@ -26,67 +26,78 @@ if (isset($_SESSION["id"])) {
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;1,9..40,500&family=Poppins&display=swap" rel="stylesheet">
   
   </head>
-    <body>
+  <body>
+      <?php include 'nav.php';?>
+      <div id="homepage-carousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#homepage-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#homepage-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#homepage-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img class="d-block w-100" src="img/Cookies.jpg" alt="first slide">
+          </div>
+          <div class="carousel-item">
+            <img class="d-block w-100 " src="img/Pancakes.jpg" alt="second slide">
+          </div>
+          <div class="carousel-item">
+            <img class="d-block w-100" src="img/Cookies.jpg" alt="third slide">
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#homepage-carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#homepage-carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+        </div>
+        <h1 class="index-heading mt-2 ms-4">Most popular</h1>
 
-        <?php include 'nav.php';?>
-        <div id="homepage-carousel" class="carousel slide" data-ride="carousel">
-          <ol class="carousel-indicators d-flex flex-row justify-content-center">
-            <li data-target="#homepage-carousel" data-slide-to="0" class="active"></li>
-            <li data-target="#homepage-carousel" data-slide-to="1"></li>
-            <li data-target="#homepage-carousel" data-slide-to="2"></li>
-          </ol>
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img class="d-block w-100" src="second.jpg" alt="first slide">
+      <div class="d-lg-flex justify-content-center">
+
+        <div class="card index-card-style col-10 col-lg-3 mx-auto mt-4">
+          <img src="img/Pancakes.jpg" class="card-img-top" alt="card 1">
+          <p class='card-text mb-0 ms-2 mt-1'><i class="bi bi-people-fill"></i> Serves</p>
+          <div class="card-body">
+            <h4 class="card-title" mb-2 mt-0>Recipe name</h4>
+            <p class="card-text ms-1">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <h6 class='card-title  mb-3'><i class="bi bi-clock"></i> <strong>30 minutes</strong></h6>
+            <div class="mx-auto">
+              <a href="" class="btn index-card-btn ms-auto col-12">Open recipe</a>
             </div>
-            <div class="carousel-item">
-              <img class="d-block w-100 " src="first.jpg" alt="second slide">
-            </div>
-            <div class="carousel-item">
-              <img class="d-block w-100" src="third.jpg" alt="third slide">
-            </div>
-            <a class="carousel-control-prev" href="#homepage-carousel" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#homepage-carousel" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
           </div>
         </div>
-        <h1 class="index-heading">Most popular</h1>
-        <div class="d-flex">
+    
+        <div class="card index-card-style col-10 col-lg-3 mx-auto mt-4">
+          <img src="img/Pancakes.jpg" class="card-img-top" alt="card 2" >
+          <p class='card-text mb-0 ms-2 mt-1'><i class="bi bi-people-fill"></i> Serves</p>
+          <div class="card-body">
+            <h4 class="card-title mb-2 mt-0">Recipe name</h4>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <h6 class='card-title  mb-3'><i class="bi bi-clock"></i> <strong>30 minutes</strong></h6>
+            <div class="mx-auto">
+              <a href="" class="btn index-card-btn ms-auto col-12">Open recipe</a>
+            </div>
+          </div>
+        </div>
 
-      <div class="col-1"></div>
-
-      <div class="card card-style">
-        <img src="first.jpg" class="card-img-top" alt="card 1">
-        <div class="card-body">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <div class="card index-card-style col-10 col-lg-3 mx-auto mt-4">
+          <img src="img/Pancakes.jpg" class="card-img-top" alt="card 3">
+          <p class='card-text mb-0 ms-2 mt-1'><i class="bi bi-people-fill"></i> Serves</p>
+          <div class="card-body">
+            <h4 class="card-title mb-2 mt-0">Recipe name</h4>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <h6 class='card-title  mb-3'><i class="bi bi-clock"></i> <strong>30 minutes</strong></h6>
+            <div class="mx-auto">
+              <a href="" class="btn index-card-btn ms-auto col-12">Open recipe</a>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="col-1"></div>
-      <div class="card card-style">
-        <img src="second.jpg" class="card-img-top" alt="card 2">
-        <div class="card-body">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-      </div>
-
-      <div class="col-1"></div>
-
-      <div class="card card-style">
-        <img src="third.jpg" class="card-img-top" alt="card 3">
-        <div class="card-body">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-      </div>
-
-      <div class="col-1"></div>
-    </div>
-
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  </body>
 </html>
