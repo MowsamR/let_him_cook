@@ -148,6 +148,7 @@
                     } else {
                         echo "URL not Found";
                     }
+                    $conn->close();
                     ?>
                     <iframe class="dish-video" src="<?php echo $fullurl;?>" allowfullscreen></iframe>
                 </div>
