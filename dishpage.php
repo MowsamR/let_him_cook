@@ -1,10 +1,10 @@
 <?php
 session_start();
 if (isset($_SESSION["id"])) {
-  $username = $_SESSION["username"];
-  $loggedin = true;
+    $username = $_SESSION["username"];
+    $loggedin = true;
 } else {
-  $loggedin = false;
+    $loggedin = false;
 }
 ?>
 <!DOCTYPE html>
@@ -75,8 +75,15 @@ if (isset($_SESSION["id"])) {
         <hr class="black-divider mb-5">
 
         <div class="row m-3 align-item-center">
-            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 pb-md-4 mx-md-auto pb-sm-4 pb-4">
-                <img class="dish-image img-fluid" src="img/Cookies.jpg" alt="Cookies">
+            <div class="dish-image col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6  col-xxl-6 pb-md-4 mx-lg-auto pb-sm-4 pb-4">
+
+                <?php $img = "img/" . $dishName . ".jpg";
+
+                // Replace spaces with hyphens
+                $newImgString = str_replace(' ', '-', $img);
+                ?>
+                <img class="img-fluid dish-image" src=<?php echo $newImgString; ?> alt="<?php echo $dishName; ?>">
+
             </div>
             <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 cooking-steps">
 
@@ -113,57 +120,60 @@ if (isset($_SESSION["id"])) {
 
             </div>
 
-
         </div>
 
 
-        <hr class="black-divider mt-5">
-        <h1 class="text-center">Cooking Direction</h1>
-        <hr class="black-divider mb-5">
 
-        <div class="row m-3">
-            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6 cooking-steps">
-                <h4 class="text-center m-4"><?php echo $dishName ?> Cooking Direction</h4>
-                <hr class="green-divider">
-                <?php
-                $CookingStepsQuery = "SELECT CookingSteps.StepNumber, CookingSteps.Instruction FROM CookingSteps WHERE DishesId = {$dishID}";
-                $CookingStepsQueryResult = $conn->query($CookingStepsQuery);
+    </div>
 
-                if ($descriptionQueryResult > 0) { ?>
-                    <ol class="px-5">
-                        <?php
-                        while ($data = $CookingStepsQueryResult->fetch_assoc()) {
-                            $StepNumber = $data['StepNumber'];
-                            $Instruction = $data['Instruction'];
-                        ?>
-                            <li class="mb-4"><?php echo $Instruction ?></li>
-                        <?php } ?>
-                    </ol>
-                <?php } else {
-                    echo "No Cooking Instructions Found";
-                }  ?>
-            </div>
-            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
-                <div>
+
+    <hr class="black-divider mt-5">
+    <h1 class="text-center">Cooking Direction</h1>
+    <hr class="black-divider mb-5">
+
+    <div class="row m-3">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6 cooking-steps">
+            <h4 class="text-center m-4"><?php echo $dishName ?> Cooking Direction</h4>
+            <hr class="green-divider">
+            <?php
+            $CookingStepsQuery = "SELECT CookingSteps.StepNumber, CookingSteps.Instruction FROM CookingSteps WHERE DishesId = {$dishID}";
+            $CookingStepsQueryResult = $conn->query($CookingStepsQuery);
+
+            if ($descriptionQueryResult > 0) { ?>
+                <ol class="px-5">
                     <?php
-                    $VideoSearchQuery = "SELECT URL FROM DishVideo WHERE DishId = {$dishID}";
-                    $VideoSearchQueryResult = $conn->query($VideoSearchQuery);
-
-                    if ($VideoSearchQueryResult > 0) {
-                        $row = $VideoSearchQueryResult->fetch_assoc();
-                        $url = explode('=',  $row['URL']);
-                        $endURL = end($url);
-                        $fullurl = "https://www.youtube.com/embed/" . $endURL;
-                    } else {
-                        echo "URL not Found";
-                    }
-                    $conn->close();
+                    while ($data = $CookingStepsQueryResult->fetch_assoc()) {
+                        $StepNumber = $data['StepNumber'];
+                        $Instruction = $data['Instruction'];
                     ?>
-                    <iframe class="dish-video" src="<?php echo $fullurl;?>" allowfullscreen></iframe>
-                </div>
-            </div>
-
+                        <li class="mb-4"><?php echo $Instruction ?></li>
+                    <?php } ?>
+                </ol>
+            <?php } else {
+                echo "No Cooking Instructions Found";
+            }  ?>
         </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
+            <div>
+                <?php
+                $VideoSearchQuery = "SELECT URL FROM DishVideo WHERE DishId = {$dishID}";
+                $VideoSearchQueryResult = $conn->query($VideoSearchQuery);
+
+                if ($VideoSearchQueryResult > 0) {
+                    $row = $VideoSearchQueryResult->fetch_assoc();
+                    $url = explode('=',  $row['URL']);
+                    $endURL = end($url);
+                    $fullurl = "https://www.youtube.com/embed/" . $endURL;
+                } else {
+                    echo "URL not Found";
+                }
+                $conn->close();
+                ?>
+                <iframe class="dish-video" src="<?php echo $fullurl; ?>" allowfullscreen></iframe>
+            </div>
+        </div>
+
+    </div>
 
     </div>
     </div>

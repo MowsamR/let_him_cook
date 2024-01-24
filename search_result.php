@@ -1,10 +1,10 @@
 <?php
 session_start();
 if (isset($_SESSION["id"])) {
-  $username = $_SESSION["username"];
-  $loggedin = true;
+    $username = $_SESSION["username"];
+    $loggedin = true;
 } else {
-  $loggedin = false;
+    $loggedin = false;
 }
 ?>
 <!DOCTYPE html>
@@ -57,25 +57,16 @@ if (isset($_SESSION["id"])) {
                         <form action="search_result.php" method="GET">
                             <!-- Cuisine Option: -->
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-12">
                                     <label for="cuisineFilter " class="mb-3">Cuisine: </label>
                                     <select class="form-select filter-options" id="cuisineFilter" name="cuisineFilter" aria-label="cuisine filter option">
                                         <option value="">Select Cuisine</option>
                                         <option value="Indian">Indian</option>
                                         <option value="Chinese">Chinese</option>
-                                        <option value="Italian">Italian</option>
+                                        <option value="American">American</option>
                                     </select>
                                 </div>
-                                <div class="col-6">
-                                    <!-- Preferences Option: -->
-                                    <label for="preferences" class="mb-3">Preferences: </label>
-                                    <select class="form-select filter-options" id="preferences" name="preferences" aria-label="preferences filter option">
-                                        <option value="">Select Preferences</option>
-                                        <option value="Vegan">Vegan</option>
-                                        <option value="Vegetarian">Vegetarian</option>
-                                        <option value="Halal">Halal</option>
-                                    </select>
-                                </div>
+
                             </div>
 
 
@@ -115,9 +106,6 @@ if (isset($_SESSION["id"])) {
         if (isset($_GET['cuisineFilter'])) {
             $selectedCuisineOption = $_GET['cuisineFilter'];
         }
-        if (isset($_GET['preferences'])) {
-            $selectedPreferencesOption = $_GET['preferences'];
-        }
         if (isset($_GET['servingRange'])) {
             $selectedServingRange = $_GET['servingRange'];
         }
@@ -127,10 +115,6 @@ if (isset($_SESSION["id"])) {
         if (!empty($selectedCuisineOption)) {
             //append this to main SQL query
             $filterQuery .= " AND Cuisine = '{$selectedCuisineOption}'";
-        }
-        if (!empty($selectedPreferencesOption)) {
-            //append this to main SQL query
-            $filterQuery .= " AND Preferences = '{$selectedPreferencesOption}'";
         }
         if (!empty($selectedServingRange)) {
             //append this to main SQL query
@@ -219,7 +203,18 @@ if (isset($_SESSION["id"])) {
                         <div class='card search-card-style mb-3'>
                             <div class='row g-0'>
                                 <div class='col-12 col-md-5 col-lg-3 col-xl-3 col-xxl-3'>
-                                    <img src='img/<?php echo $data['Name'] ?>.jpg' class='card-img search-card-img img-fluid rounded-start' alt='first image' />
+
+                                    <?php
+                                    $dishName = $data['Name'];
+                                    $img = "img/" . $dishName . ".jpg" ?>
+
+                                    <?php 
+
+                                    // Replace spaces with hyphens
+                                    $newImgString = str_replace(' ', '-', $img);
+                                    ?>
+
+                                    <img src='<?php echo $newImgString ?>' class='card-img search-card-img img-fluid rounded-start' alt='<?php echo $dishName; ?>' />
                                 </div>
 
                                 <div class='col-12 col-md-5 col-lg-9 col-xl-9 col-xxl-9'>
