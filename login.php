@@ -41,8 +41,7 @@ if (isset($_SESSION["id"])) {
 		
 		//Hash inputted password
 		$hashPassword = hash("sha256",$inputPassword);
-		echo $hashPassword;
-		echo " Password SEPARATOR "; 
+		 
         //Check if Username or Email already exists in the system
         $query = "SELECT UserID, Username, Password, Email FROM user WHERE Username = ? OR Email = ?;";
         //Prepare SQL Statement
@@ -57,9 +56,7 @@ if (isset($_SESSION["id"])) {
                     //bind the 'outputs' of the SQL command to these variables respectively and fill them via fetch()
                     $stmt->bind_result($id, $username, $password, $email);
                     $stmt->fetch();
-					echo $password;
-
-                    
+  
                     //check if the password entered matches the password in the database
                     if ($hashPassword === $password) {
                         $incorrectpass = false;
@@ -105,15 +102,6 @@ if (isset($_SESSION["id"])) {
         </form>
       </div>
     </div>
-    <script>
-      function showMessage(incorrectpass){
-        console.log("ip: " + incorrectpass);
-        if(incorrectpass == true){
-          alert("incorrect pass");
-          <?php $incorrectpass = false?>
-        }
-      }
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
    </body>
 </html>
