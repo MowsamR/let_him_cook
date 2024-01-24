@@ -21,84 +21,90 @@
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;1,9..40,500&family=Poppins&display=swap" rel="stylesheet">
     
   </head>
-  <?php 
-    include 'php_scripts/db_connection.php';
-    $query = "SELECT Username, Password, Email FROM user WHERE Username = ?";
 
-    if($stmt = $conn->prepare($query)) {
-        $stmt->bind_param("s", $username);
-        if ($stmt->execute()) {
-            $stmt->store_result();  
-            $stmt->bind_result($username, $password, $email);
-            $stmt->fetch();
-        }
-        
-    }
-
-    if(isset($_POST['saveEmail'])){
-        //Error handling
-        //Checking if the email already exists in database
-        $emailCheckQuery="SELECT Email FROM user WHERE Email=?;";
-        $emailIsRepeated = false;
-        if($stmt = $conn->prepare($emailCheckQuery)){
-            $stmt->bind_param("s", $_POST['emailUpdateInput']);
-            if ($stmt->execute()) {    
-                $stmt->store_result();  
-                if ($stmt->num_rows() > 0) {
-                    $emailIsRepeated = true;
-                    
-                }
-            }
-        }
-
-        $emailchangedsuccessfully = false;
-
-        if($emailIsRepeated == false){
-            $updateQuery = "UPDATE user
-            SET Email = ?
-            WHERE UserID = ?;";
-
-            if($stmt = $conn->prepare($updateQuery)) {
-                $stmt->bind_param("si", $_POST['emailUpdateInput'], $_SESSION["id"]);
-                if ($stmt->execute()) {
-                    $email = $_POST['emailUpdateInput'];
-                    $emailchangedsuccessfully = true;
-                }  
-            }
-        }
-    }
-
-    if(isset($_POST['savePassword'])){
-        $current_password = $_POST['currentPasswordInput'];
-        $new_password = $_POST['newPasswordInput'];
-        $new_password_confirmation = $_POST['newPasswordConfirmInput'];
-
-        $do_passwords_match = true;
-        $is_current_password_correct = true;
-        if($new_password == $new_password_confirmation){
-            if($current_password == $password){
-                $is_current_password_correct = true;
-                $updateQuery = "UPDATE user
-                SET Password = ?
-                WHERE UserID = ?;";
-                if($stmt = $conn->prepare($updateQuery)) {
-                    $stmt->bind_param("si", $new_password, $_SESSION["id"]);
-                    if ($stmt->execute()) {
-                        $password = $new_password;
-                        $password_changed_successfully = true;
-                    } 
-                }
-            }else{
-                $is_current_password_correct = false;
-            }
-        }else{
-            $do_passwords_match = false;
-        }
-    }
-    ?>
     <body>
         <?php include 'nav.php'?>
         
+        <?php 
+            include 'php_scripts/db_connection.php';
+            $query = "SELECT Username, Password, Email FROM user WHERE Username = ?";
+
+            if($stmt = $conn->prepare($query)) {
+                $stmt->bind_param("s", $username);
+                if ($stmt->execute()) {
+                    $stmt->store_result();  
+                    $stmt->bind_result($username, $password, $email);
+                    $stmt->fetch();
+                }
+                $stmt->close();
+            }
+
+            if(isset($_POST['saveEmail'])){
+                //Error handling
+                //Checking if the email already exists in database
+                $emailCheckQuery="SELECT Email FROM user WHERE Email=?;";
+                $emailIsRepeated = false;
+                if($stmt = $conn->prepare($emailCheckQuery)){
+                    $stmt->bind_param("s", $_POST['emailUpdateInput']);
+                    if ($stmt->execute()) {    
+                        $stmt->store_result();  
+                        if ($stmt->num_rows() > 0) {
+                            $emailIsRepeated = true;
+                            
+                        }
+                    }
+                    $stmt->close();
+                }
+
+                $emailchangedsuccessfully = false;
+
+                if($emailIsRepeated == false){
+                    $updateQuery = "UPDATE user
+                    SET user.Email = ?
+                    WHERE user.UserID = ?;";
+
+                    if($stmt = $conn->prepare($updateQuery)) {
+                        $stmt->bind_param("si", $_POST['emailUpdateInput'], $_SESSION["id"]);
+                        if ($stmt->execute()) {
+                            $email = $_POST['emailUpdateInput'];
+                            $emailchangedsuccessfully = true;
+                        }  
+                        $stmt->close();
+                    }
+                }
+            }
+
+            if(isset($_POST['savePassword'])){
+                $current_password = $_POST['currentPasswordInput'];
+                $new_password = $_POST['newPasswordInput'];
+                $new_password_confirmation = $_POST['newPasswordConfirmInput'];
+
+                $do_passwords_match = true;
+                $is_current_password_correct = true;
+                if($new_password == $new_password_confirmation){
+                    if($current_password == $password){
+                        $is_current_password_correct = true;
+                        $updateQuery = "UPDATE user
+                        SET Password = ?
+                        WHERE UserID = ?;";
+                        if($stmt = $conn->prepare($updateQuery)) {
+                            $stmt->bind_param("si", $new_password, $_SESSION["id"]);
+                            if ($stmt->execute()) {
+                                $password = $new_password;
+                                $password_changed_successfully = true;
+                            }
+                            $stmt->close();
+                        }
+                    }else{
+                        $is_current_password_correct = false;
+                    }
+                }else{
+                    $do_passwords_match = false;
+                }
+            }
+            $conn->close();
+        ?>
+
         <h1 class="display-3 d-flex mt-3 ms-5">Edit profile</h1>
         <div class="d-flex justify-content-center">
             <div class="login-register-form col-10 col-sm-10 col-md-7 col-lg-8 col-xl-5 col-xxl-5 px-4 py-3">    
