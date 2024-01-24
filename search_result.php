@@ -179,7 +179,7 @@
             $ans = $dishQueryResult;
         }
     }
-    
+
     ?>
 
     <!-- ========== PHP code for Displaying results ========== -->
