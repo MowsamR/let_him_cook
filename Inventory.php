@@ -45,12 +45,13 @@
 		$username = $_SESSION["username"];
 		$invParam = "";
 
-		//Display the user's current inventory
-		$showInv = $conn->prepare("SELECT i.Name AS IngredientName, ii.Quantity AS QuantityInInventory FROM user u JOIN inventory inv ON u.UserID = inv.UserID JOIN inventory_ingredients ii ON inv.InventoryID = ii.InventoryID JOIN ingredients i ON ii.IngredientID = i.IngredientID WHERE u.Username = ?");
+		//SQL statement to get user's inventory
+		$showInv = $conn->prepare("SELECT i.Name AS IngredientName, inv.Quantity AS QuantityInInventory FROM user u JOIN inventory inv ON u.UserID = inv.InventoryID JOIN ingredients i ON inv.IngredientID = i.IngredientID WHERE u.Username = ?");
 		$showInv->bind_param("s",$username);
 		$showInv->execute();
 		$showInv->store_result();
 		
+		//Display the user's current inventory
 		if ($showInv -> num_rows > 0){
 			echo "<div class='container col-10 col-lg-8 col-xl-6 col-xxl-6'>";
 			echo '<table class="table py-2 px-2">';
@@ -106,7 +107,7 @@
 			// Verify if the Ingredient is already in the user's Inventory
 			//Count the number of times the Ingredient is present in the user's inventory (1 or 0)
 			//$count = 0 ; 
-			$duplicate = $conn->prepare("SELECT COUNT(*) FROM inventory_ingredients WHERE inventory_ingredients.InventoryID = ? AND inventory_ingredients.IngredientID = ?;");
+			$duplicate = $conn->prepare("SELECT COUNT(*) FROM inventory WHERE inventory.InventoryID = ? AND inventory.IngredientID = ?;");
 			$duplicate->bind_param("ii",$id ,$ingParam);
 			$duplicate->execute();
 			$duplicate->bind_result($count);
@@ -114,13 +115,10 @@
 			$duplicate->close();
 			
 			
-
-			
-			
 			// Verify Ingredient exists 
 			if ($ingParam){
 				//Get the Inventory ID of a given user		
-				$stmt = $conn->prepare("SELECT inventory.InventoryID FROM inventory WHERE inventory.UserID = ?;");
+				$stmt = $conn->prepare("SELECT inventory.InventoryID FROM inventory WHERE inventory.InventoryID = ?;");
 				$stmt->bind_param("i",$id);
 				$stmt->execute();
 				$outocme = $stmt->get_result();
@@ -130,9 +128,11 @@
 					// Verify Inventory ID exists
 					if ($invParam){
 						//Add Ingredient to user's Inventory
-						$addIng = $conn->prepare("INSERT INTO inventory_ingredients (inventory_ingredients.InventoryID, inventory_ingredients.IngredientID, inventory_ingredients.Quantity) VALUES (?,?,?);");
+						$addIng = $conn->prepare("INSERT INTO inventory (inventory.InventoryID, inventory.IngredientID, inventory.Quantity) VALUES (?,?,?);");
 						$addIng->bind_param("iii",$_SESSION["id"],$ingParam["IngredientID"],$Quantity);
-						$addIng->execute();
+						if($addIng->execute()){
+						$_POST = array();
+						}
 						echo "Ingredient: $Ingredient has been added <br>";
 						$addIng->close();
 					}
@@ -143,7 +143,7 @@
 				}
 				
 				else {
-					$currentQuant = $conn->prepare("SELECT inventory_ingredients.Quantity FROM inventory_ingredients WHERE inventory_ingredients.InventoryID = ? AND inventory_ingredients.IngredientID = ?;");
+					$currentQuant = $conn->prepare("SELECT inventory.Quantity FROM inventory WHERE inventory.InventoryID = ? AND inventory.IngredientID = ?;");
 					$currentQuant->bind_param("ii",$invParam,$ingParam);
 					$currentQuant->execute();
 					$currentQuant->bind_result($currentTotal);
@@ -152,7 +152,7 @@
 					
 					$newQuant = $Quantity + $currentTotal;
 					
-					$updateIng = $conn->prepare("UPDATE inventory_ingredients SET Quantity = ? WHERE inventory_ingredients.InventoryID = ? AND inventory_ingredients.IngredientID = ?;");
+					$updateIng = $conn->prepare("UPDATE inventory SET Quantity = ? WHERE inventory.InventoryID = ? AND inventory.IngredientID = ?;");
 					$updateIng->bind_param("iii",$newQuant,$invParam,$ingParam);
 					if($updateIng->execute()){
 						$_POST = array();
@@ -194,7 +194,7 @@
 	<?php
 		if(isset($_POST['Recommend'])) { 	 
 			$ID = $_SESSION["id"];
-			$sugguest = $conn->prepare("SELECT DISTINCT d.Name AS DishName FROM dishes d JOIN ingredients_dishes id ON d.DishesId = id.DishID JOIN ingredients i ON id.IngredientID = i.IngredientID JOIN inventory_ingredients ii ON i.IngredientID = ii.IngredientID WHERE ii.InventoryID = ?");
+			$sugguest = $conn->prepare("SELECT DISTINCT d.Name AS DishName FROM dishes d JOIN ingredients_dishes id ON d.DishesId = id.DishID JOIN ingredients i ON id.IngredientID = i.IngredientID JOIN inventory ii ON i.IngredientID = ii.IngredientID WHERE ii.InventoryID = ?");
 			$sugguest->bind_param("i",$ID);
 			$sugguest->execute();
 			$sugguest->store_result();
@@ -212,7 +212,9 @@
 						echo"
 						<tr>
 							<th scope='row'> " . $dishname . "</th>
+							<td> <input type='submit' name='$dishname' value='Cook me!'> </td>
 						</tr>";
+						
 					}
 				echo "</tbody>";
 			echo "</table>";
