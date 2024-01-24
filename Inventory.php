@@ -103,6 +103,19 @@
 			$equals = $ingID->get_result();
 			$ingParam = $equals->fetch_assoc();
 			
+			// Verify if the Ingredient is already in the user's Inventory
+			//Count the number of times the Ingredient is present in the user's inventory (1 or 0)
+			//$count = 0 ; 
+			$duplicate = $conn->prepare("SELECT COUNT(*) FROM inventory_ingredients WHERE inventory_ingredients.InventoryID = ? AND inventory_ingredients.IngredientID = ?;");
+			$duplicate->bind_param("ii",$id ,$ingParam);
+			$duplicate->execute();
+			$duplicate->bind_result($count);
+			$duplicate->fetch();
+			$duplicate->close();
+			
+			
+
+			
 			
 			// Verify Ingredient exists 
 			if ($ingParam){
@@ -113,22 +126,50 @@
 				$outocme = $stmt->get_result();
 				$invParam = $outocme->fetch_assoc();
 				
-				// Verify Inventory ID exists
-				if ($invParam){
-					//Add Ingredient to user's Inventory
-					$addIng = $conn->prepare("INSERT INTO inventory_ingredients (inventory_ingredients.InventoryID, inventory_ingredients.IngredientID, inventory_ingredients.Quantity) VALUES (?,?,?);");
-					$addIng->bind_param("iii",$_SESSION["id"],$ingParam["IngredientID"],$Quantity);
-					$addIng->execute();
-					echo "Ingredient: $Ingredient has been added <br>";
-				$addIng->close();
-				}else{
-					echo "No Inventory exists for this user";
+				if ($count == 0){
+					// Verify Inventory ID exists
+					if ($invParam){
+						//Add Ingredient to user's Inventory
+						$addIng = $conn->prepare("INSERT INTO inventory_ingredients (inventory_ingredients.InventoryID, inventory_ingredients.IngredientID, inventory_ingredients.Quantity) VALUES (?,?,?);");
+						$addIng->bind_param("iii",$_SESSION["id"],$ingParam["IngredientID"],$Quantity);
+						$addIng->execute();
+						echo "Ingredient: $Ingredient has been added <br>";
+						$addIng->close();
+					}
+					else{
+						echo "No Inventory exists for this user";
+					}
+					
 				}
-			$stmt->close();
-			}else{
-				echo "Ingredient not found";
+				
+				else {
+					$currentQuant = $conn->prepare("SELECT inventory_ingredients.Quantity FROM inventory_ingredients WHERE inventory_ingredients.InventoryID = ? AND inventory_ingredients.IngredientID = ?;");
+					$currentQuant->bind_param("ii",$invParam,$ingParam);
+					$currentQuant->execute();
+					$currentQuant->bind_result($currentTotal);
+					$currentQuant->fetch();
+					$currentQuant->close();
+					
+					$newQuant = $Quantity + $currentTotal;
+					
+					$updateIng = $conn->prepare("UPDATE inventory_ingredients SET Quantity = ? WHERE inventory_ingredients.InventoryID = ? AND inventory_ingredients.IngredientID = ?;");
+					$updateIng->bind_param("iii",$newQuant,$invParam,$ingParam);
+					if($updateIng->execute()){
+						$_POST = array();
+					}
+					
+					
+				} 
+				$stmt->close(); 
 			}
+			else{
+				echo "Ingredient not found";
+				}
+				
+			
+			
 		$ingID->close();
+		
 		} 
 		?>
 
@@ -152,37 +193,30 @@
 		
 	<?php
 		if(isset($_POST['Recommend'])) { 	 
-			//global $conn;
 			$ID = $_SESSION["id"];
-			
-			//Get User's Inventory
-			//$stmt = $conn->prepare("SELECT inventory.InventoryID FROM inventory WHERE inventory.UserID = ?;");
-			//$stmt->bind_param("i",$ID);
-			//$stmt->execute();
-			//$outocme = $stmt->get_result();
-			//$invParam = $outocme->fetch_assoc();
-			
-			echo "Button clicked";
-			// Recommend dishes that use only ingrediens in the user's inventory
 			$sugguest = $conn->prepare("SELECT DISTINCT d.Name AS DishName FROM dishes d JOIN ingredients_dishes id ON d.DishesId = id.DishID JOIN ingredients i ON id.IngredientID = i.IngredientID JOIN inventory_ingredients ii ON i.IngredientID = ii.IngredientID WHERE ii.InventoryID = ?");
 			$sugguest->bind_param("i",$ID);
 			$sugguest->execute();
 			$sugguest->store_result();
 			
-			
-			if ($sugguest -> num_rows > 0){
-				echo '<table class="table">';
-				echo "You have the ingredients to make the following dishes:";
-				echo "<tr><th>Dishes</th>";
-				while ($sugguest->fetch()) {
+			echo "<div class='container col-10 col-lg-8 col-xl-6 col-xxl-6'>";
+			echo '<table class="table py-2 px-2">';
+				echo "<thead>
+						<tr>
+							<th class='col'>Dish Name</th>
+						</tr>
+					</thead>";
+				echo "<tbody>";
 					$sugguest->bind_result($dishname);
-				echo "<tr><td>" . $dishname . "</td></tr>";
-				}
+					while ($sugguest->fetch()) {
+						echo"
+						<tr>
+							<th scope='row'> " . $dishname . "</th>
+						</tr>";
+					}
+				echo "</tbody>";
 			echo "</table>";
-			}
-			else{
-				echo "No available dishes";
-			}
+			echo "</div>";
 		} 	
 		$conn->close();
 	?>
