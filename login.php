@@ -29,8 +29,11 @@
         //Get login data from form and store them in respective variables
         $usernameOrEmail = $_POST["usernameInput"];
         $inputPassword = $_POST["passwordInput"];
-
-
+		
+		//Hash inputted password
+		$hashPassword = hash("sha256",$inputPassword);
+		echo $hashPassword;
+		echo " Password SEPARATOR "; 
         //Check if Username or Email already exists in the system
         $query = "SELECT UserID, Username, Password, Email FROM user WHERE Username = ? OR Email = ?;";
         //Prepare SQL Statement
@@ -45,10 +48,11 @@
                     //bind the 'outputs' of the SQL command to these variables respectively and fill them via fetch()
                     $stmt->bind_result($id, $username, $password, $email);
                     $stmt->fetch();
+					echo $password;
 
                     
                     //check if the password entered matches the password in the database
-                    if ($inputPassword === $password) {
+                    if ($hashPassword === $password) {
                         $incorrectpass = false;
                         session_start();
                         $_SESSION['id'] = $id;
