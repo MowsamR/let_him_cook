@@ -58,7 +58,7 @@
             <p class="card-text ms-1">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
             <h6 class='card-title  mb-3'><i class="bi bi-clock"></i> <strong>30 minutes</strong></h6>
             <div class="mx-auto">
-              <a href="" class="btn index-card-btn ms-auto col-12">Open recipe</a>
+              <a href="dishpage.php?dishID=3" class="btn index-card-btn ms-auto col-12">Open recipe</a>
             </div>
           </div>
         </div>
@@ -71,7 +71,7 @@
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
             <h6 class='card-title  mb-3'><i class="bi bi-clock"></i> <strong>30 minutes</strong></h6>
             <div class="mx-auto">
-              <a href="" class="btn index-card-btn ms-auto col-12">Open recipe</a>
+              <a href="dishpage.php?dishID=2" class="btn index-card-btn ms-auto col-12">Open recipe</a>
             </div>
           </div>
         </div>
@@ -84,7 +84,7 @@
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
             <h6 class='card-title  mb-3'><i class="bi bi-clock"></i> <strong>30 minutes</strong></h6>
             <div class="mx-auto">
-              <a href="" class="btn index-card-btn ms-auto col-12">Open recipe</a>
+              <a href="dishpage.php?dishID=1" class="btn index-card-btn ms-auto col-12">Open recipe</a>
             </div>
           </div>
         </div>
