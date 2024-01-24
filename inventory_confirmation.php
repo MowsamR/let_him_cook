@@ -27,15 +27,11 @@ if (isset($_SESSION["id"])) {
   
   </head>
   <body>
-      <?php include 'nav.php';?>
-		<div class="container">
-			<h1 class="ms-5">Confirmation</h1>
-			<p>Ingredient has been added successfully.</p>
-			<!-- Add any other relevant content here -->
+    <?php include 'nav.php';?>
+		<div class="d-flex justify-content-center">
+			<h1 class="mx-auto">Ingredient has been added successfully.</h1>
 		</div>
-		
-		
-		<?php header("Location: Inventory.php");?>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   </body>
 </html>

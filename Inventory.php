@@ -17,14 +17,16 @@ if (isset($_SESSION["id"])) {
 
 		// Retrieve data from the form
 		$Ingredient = $_POST["Ingredient"];
-		$Quantity = $_POST["Quantity"];
+		$Quantity = (int)$_POST["Quantity"];
 		
+	
 		//Get IngredientID of Ingredient
 		$ingID = $conn->prepare("SELECT ingredients.IngredientID FROM ingredients WHERE ingredients.Name = ?;");
 		$ingID->bind_param("s",$Ingredient);
 		$ingID->execute();
 		$equals = $ingID->get_result();
-		$ingParam = $equals->fetch_assoc();
+		$ingres = $equals->fetch_assoc();
+		$ingParam = $ingres['IngredientID'];
 		
 		// Verify if the Ingredient is already in the user's Inventory
 		//Count the number of times the Ingredient is present in the user's inventory (1 or 0)
@@ -38,36 +40,36 @@ if (isset($_SESSION["id"])) {
 		
 		// Verify Ingredient exists 
 		if ($ingParam){
-			//Get the Inventory ID of a given user		
-			$stmt = $conn->prepare("SELECT inventory.InventoryID FROM inventory WHERE inventory.InventoryID = ?;");
-			$stmt->bind_param("i",$id);
-			$stmt->execute();
-			$outcome = $stmt->get_result();
-			$invParam = $outcome->fetch_assoc();
+			// //Get the Inventory ID of a given user		
+			// $stmt = $conn->prepare("SELECT inventory.InventoryID FROM inventory WHERE inventory.InventoryID = ?;");
+			// $stmt->bind_param("i",$id);
+			// $stmt->execute();
+			// $outcome = $stmt->get_result();
+			// $invParam = $outcome->fetch_assoc();
 			
 			if ($count == 0){
-				// Verify Inventory ID exists
-				if ($invParam){
-					//Add Ingredient to user's Inventory
-					$addIng = $conn->prepare("INSERT INTO inventory (inventory.InventoryID, inventory.IngredientID, inventory.Quantity) VALUES (?,?,?);");
-					$addIng->bind_param("iii",$_SESSION["id"],$ingParam["IngredientID"],$Quantity);
-					if($addIng->execute()){
-						$addIng->close();
-						header('Location: inventory_confirmation');
-						exit();
-					}
-					//echo "Ingredient: $Ingredient has been added <br>";
+
+				//Add Ingredient to user's Inventory
+				$addIng = $conn->prepare("INSERT INTO inventory (inventory.InventoryID, inventory.IngredientID, inventory.Quantity) VALUES (?,?,?);");
+				$addIng->bind_param("iii",$_SESSION["id"],$ingParam["IngredientID"],$Quantity);
+				if($addIng->execute()){
 					
+					// echo $_POST["Ingredient"];
+					// echo $_POST["Quantity"];
+					
+					header('Location: inventory_confirmation.php');
+					$addIng->close();
+					exit();
 				}
-				else{
-					echo "No Inventory exists for this user";
-				}
+				//echo "Ingredient: $Ingredient has been added <br>";
+					
+				
 				
 			}
 			
 			else {
 				$currentQuant = $conn->prepare("SELECT inventory.Quantity FROM inventory WHERE inventory.InventoryID = ? AND inventory.IngredientID = ?;");
-				$currentQuant->bind_param("ii",$invParam,$ingParam);
+				$currentQuant->bind_param("ii",$_SESSION["id"],$ingParam);
 				$currentQuant->execute();
 				$currentQuant->bind_result($currentTotal);
 				$currentQuant->fetch();
@@ -76,26 +78,27 @@ if (isset($_SESSION["id"])) {
 				$newQuant = $Quantity + $currentTotal;
 				
 				$updateIng = $conn->prepare("UPDATE inventory SET Quantity = ? WHERE inventory.InventoryID = ? AND inventory.IngredientID = ?;");
-				$updateIng->bind_param("iii",$newQuant,$invParam,$ingParam);
+				$updateIng->bind_param("iii",$newQuant,$_SESSION["id"],$ingParam);
 				if($updateIng->execute()){
+					// echo $_POST["Ingredient"];
+					// echo $_POST["Quantity"];
+					header('Location: inventory_confirmation.php');
 					$updateIng->close();
-					header('Location: inventory_confirmation');
 					exit();
 				}
 				
 				
 			} 
 			$stmt->close(); 
+		} else{
+			echo"<script language='javascript'>
+					alert('Ingredient not found');
+				</script>";
 		}
-		else{
-			echo "Ingredient not found";
-			}
-			
-		
-		
-	$ingID->close();
-	
-	} 
+
+		$ingID->close();
+	}
+	$conn->close();
 	?>
 <!DOCTYPE html>
 <html lang = "en">
@@ -131,128 +134,122 @@ if (isset($_SESSION["id"])) {
   
   </head>
 
-<body>
+	<body>
 
-	<?php include 'nav.php'; ?>
+		<?php include 'nav.php'; ?>
 
-	<h1 class = "ms-5">Inventory </h1>
-	<?php 
-		
-		include "php_scripts/db_connection.php";
-		
-		$username = $_SESSION["username"];
-		$invParam = "";
-
-		//SQL statement to get user's inventory
-		$showInv = $conn->prepare("SELECT i.Name AS IngredientName, inv.Quantity AS QuantityInInventory FROM user u JOIN inventory inv ON u.UserID = inv.InventoryID JOIN ingredients i ON inv.IngredientID = i.IngredientID WHERE u.Username = ?");
-		$showInv->bind_param("s",$username);
-		$showInv->execute();
-		$showInv->store_result();
-		
-		//Display the user's current inventory
-		if ($showInv -> num_rows > 0){
-			echo "<div class='container col-10 col-lg-8 col-xl-6 col-xxl-6'>";
-			echo '<table class="table py-2 px-2">';
-				echo "<thead>
-						<tr>
-							<th class='col'>Ingredient</th>
-							<th class='col'>Quantity</th>
-						</tr>
-					</thead>";
-				echo "<tbody>";
-					$showInv->bind_result($ingredientName, $quantityInInventory);
-					while ($showInv->fetch()) {
-						echo"
-						<tr>
-							<th scope='row'> " . $ingredientName . "</th>
-							<td>" . $quantityInInventory . "</td>
-
-						</tr>";
-					}
-				echo "</tbody>";
-			echo "</table>";
-				echo "<form method= 'post' action= 'Inventory.php' >
-						<div class='d-flex justify-content-end mt-2 mb-3'>
-							<input type='submit' name='Recommend' class='btn btn-login col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-5' value='Recommend'/> 	
-						</div>
-					</form>";
-			echo "</div>";
-		} 
-		else {
-			echo "<h1>No inventory data available.</h1>";
-		}
-
-		$showInv->free_result();
-		$showInv->close();
-		
-		// Get UserID of current user
-
-		?>
-		
-		<div class="d-flex justify-content-center">
-			<div class="col-11 col-md-8 col-lg-6 col-xl-5 col-xxl-4 mx-auto py-2 px-2">
-				<form method="post" action="Inventory.php">
-						<div class = "form-group">
-							<label for="Ingredient" class="login-register-labels">Ingredient:</label>
-							<input type="text" name="Ingredient" class=" form-control login-register-input" required>
-						</div>
-						<div class = "form-group">
-							<label for="Quantity" class="login-register-labels mt-2">Quantity:</label>
-							<input type="text" name="Quantity" class = "form-control login-register-input" required>
-						</div>
-						<div class="d-flex justify-content-end mt-3 mb-3">
-							<input type="submit" class="btn btn-login col-12 col-sm-4 col-md-4 col-lg-4 col-xl-3 col-xxl-3" value="Add">	
-						</div>
-				</form>
-			</div>			
-		</div>
-		
-		<!-- <div class="col-3">
-			<label for="ingredientDropdown " class="mb-3">Cuisine: </label>
-			<select class="form-select filter-options" id="ingredientDropdown" name="ingredientDropdown" aria-label="ingredient dropdown">
-				<option value="" class="value">Select ingredient</option>
-				<?php 
-					$ing_query = "SELECT IngredientID, ingredients.Name FROM ingredients";
-					$result = $conn->query($ing_query);
-
-					
-					while($row = $result->fetch_assoc()){
-						echo "<option value='". $IngredientID ."'> " . $row['Name'] . "</option>";
-					}
-				?>
-			</select>
-		</div> -->
-	<?php
-		if(isset($_POST['Recommend'])) { 	 
-			$ID = $_SESSION["id"];
-			$sugguest = $conn->prepare("SELECT DISTINCT d.Name AS DishName FROM dishes d JOIN ingredients_dishes id ON d.DishesId = id.DishID JOIN ingredients i ON id.IngredientID = i.IngredientID JOIN inventory ii ON i.IngredientID = ii.IngredientID WHERE ii.InventoryID = ?");
-			$sugguest->bind_param("i",$ID);
-			$sugguest->execute();
-			$sugguest->store_result();
+		<h1 class = "ms-5">Inventory </h1>
+		<?php 
 			
-			echo "<div class='container col-10 col-lg-8 col-xl-6 col-xxl-6'>";
-			echo '<table class="table py-2 px-2">';
-				echo "<thead>
-						<tr>
-							<th class='col'>Dish Name</th>
-						</tr>
-					</thead>";
-				echo "<tbody>";
-					$sugguest->bind_result($dishname);
-					while ($sugguest->fetch()) {
-						echo"
-						<tr>
-							<th scope='row'> " . $dishname . "</th>
-							<td> <input type='submit' name='$dishname' value='Cook me!'> </td>
-						</tr>";
-						
-					}
-				echo "</tbody>";
-			echo "</table>";
-			echo "</div>";
-		} 	
-		$conn->close();
-	?>
-	
-</body>
+			include "php_scripts/db_connection.php";
+			
+			$username = $_SESSION["username"];
+			$invParam = "";
+
+			//SQL statement to get user's inventory
+			$showInv = $conn->prepare("SELECT i.Name AS IngredientName, inv.Quantity AS QuantityInInventory FROM user u JOIN inventory inv ON u.UserID = inv.InventoryID JOIN ingredients i ON inv.IngredientID = i.IngredientID WHERE u.Username = ?");
+			$showInv->bind_param("s",$username);
+			$showInv->execute();
+			$showInv->store_result();
+			
+			//Display the user's current inventory
+			if ($showInv -> num_rows > 0){
+				echo "<div class='container col-10 col-lg-8 col-xl-6 col-xxl-6'>";
+				echo '<table class="table py-2 px-2">';
+					echo "<thead>
+							<tr>
+								<th class='col'>Ingredient</th>
+								<th class='col'>Quantity</th>
+							</tr>
+						</thead>";
+					echo "<tbody>";
+						$showInv->bind_result($ingredientName, $quantityInInventory);
+						while ($showInv->fetch()) {
+							echo"
+							<tr>
+								<th scope='row'> " . $ingredientName . "</th>
+								<td>" . $quantityInInventory . "</td>
+
+							</tr>";
+						}
+					echo "</tbody>";
+				echo "</table>";
+					echo "<form method= 'post' action= 'Inventory.php' >
+							<div class='d-flex justify-content-end mt-2 mb-3'>
+								<input type='submit' name='Recommend' class='btn btn-login col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-5' value='Recommend'/> 	
+							</div>
+						</form>";
+				echo "</div>";
+			} 
+			else {
+				echo "<h1>No inventory data available.</h1>";
+			}
+
+			$showInv->free_result();
+			$showInv->close();
+			
+			// Get UserID of current user
+
+			?>
+			
+			<div class="d-flex justify-content-center">
+				<div class="col-11 col-md-8 col-lg-6 col-xl-5 col-xxl-4 mx-auto py-2 px-2">
+					<form method="post" action="Inventory.php">
+							<div class = "form-group">
+								<label for="Ingredient" class="login-register-labels">Ingredient:</label>
+								<!-- <select name="Ingredient" class="form-select filter-options" id="Ingredient" aria-label="ingredient" required>
+									<?php 
+										// $ing_query = "SELECT IngredientID, ingredients.Name FROM ingredients";
+										// $result = $conn->query($ing_query);
+										// while($row = $result->fetch_assoc()){
+										// 	echo "<option value='".$row['Name']."'> " . $row['Name'] . "</option>";
+										// }
+									?>
+								</select> -->
+								<input type="text" name="Ingredient" class=" form-control login-register-input" required>
+							</div>
+							<div class = "form-group">
+								<label for="Quantity" class="login-register-labels mt-2">Quantity:</label>
+								<input type="text" name="Quantity" class = "form-control login-register-input" required>
+							</div>
+							<div class="d-flex justify-content-end mt-3 mb-3">
+								<input type="submit" class="btn btn-login col-12 col-sm-4 col-md-4 col-lg-4 col-xl-3 col-xxl-3" value="Add">	
+							</div>
+					</form>
+				</div>			
+			</div>
+			
+
+		<?php
+			if(isset($_POST['Recommend'])) { 	 
+				$ID = $_SESSION["id"];
+				$sugguest = $conn->prepare("SELECT DISTINCT d.Name AS DishName FROM dishes d JOIN ingredients_dishes id ON d.DishesId = id.DishID JOIN ingredients i ON id.IngredientID = i.IngredientID JOIN inventory ii ON i.IngredientID = ii.IngredientID WHERE ii.InventoryID = ?");
+				$sugguest->bind_param("i",$ID);
+				$sugguest->execute();
+				$sugguest->store_result();
+				
+				echo "<div class='container col-10 col-lg-8 col-xl-6 col-xxl-6'>";
+				echo '<table class="table py-2 px-2">';
+					echo "<thead>
+							<tr>
+								<th class='col'>Dish Name</th>
+							</tr>
+						</thead>";
+					echo "<tbody>";
+						$sugguest->bind_result($dishname);
+						while ($sugguest->fetch()) {
+							echo"
+							<tr>
+								<th scope='row'> " . $dishname . "</th>
+							</tr>";
+							
+						}
+					echo "</tbody>";
+				echo "</table>";
+				echo "</div>";
+			} 	
+			$conn->close();
+		?>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+	</body>
 </html>

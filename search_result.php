@@ -198,7 +198,7 @@ if (isset($_SESSION["id"])) {
 
         <div class='container'>
             <div class="row m-5">
-                <h2 class='search-result-heading col-6 text-start '> Search results for ' <?php echo $searchFood; ?> '</h2>
+                <h2 class='search-result-heading col-6 text-start '> Search results:</h2>
                 <h2 class='search-result-heading col-6 text-end'><?php echo $number_of_rows; ?> Dishes </h2>
             </div>
 
@@ -248,7 +248,7 @@ if (isset($_SESSION["id"])) {
             }
             echo "</div>";
         } else {
-            echo "<h1 class='search-result-heading'>No results found</h1>";
+            //echo "<h1 class='search-result-heading'>No results found</h1>";
         }
         $conn->close();
         ?>
