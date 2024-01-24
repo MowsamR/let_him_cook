@@ -1,4 +1,88 @@
+<?php
+	$id = $_SESSION["id"];
+	
+	// Check if the form fields are set
+	if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Ingredient"]) && isset($_POST["Quantity"])){
 
+		// Retrieve data from the form
+		$Ingredient = $_POST["Ingredient"];
+		$Quantity = $_POST["Quantity"];
+		
+		//Get IngredientID of Ingredient
+		$ingID = $conn->prepare("SELECT ingredients.IngredientID FROM ingredients WHERE ingredients.Name = ?;");
+		$ingID->bind_param("s",$Ingredient);
+		$ingID->execute();
+		$equals = $ingID->get_result();
+		$ingParam = $equals->fetch_assoc();
+		
+		// Verify if the Ingredient is already in the user's Inventory
+		//Count the number of times the Ingredient is present in the user's inventory (1 or 0)
+		//$count = 0 ; 
+		$duplicate = $conn->prepare("SELECT COUNT(*) FROM inventory WHERE inventory.InventoryID = ? AND inventory.IngredientID = ?;");
+		$duplicate->bind_param("ii",$id ,$ingParam);
+		$duplicate->execute();
+		$duplicate->bind_result($count);
+		$duplicate->fetch();
+		$duplicate->close();
+		
+		
+		// Verify Ingredient exists 
+		if ($ingParam){
+			//Get the Inventory ID of a given user		
+			$stmt = $conn->prepare("SELECT inventory.InventoryID FROM inventory WHERE inventory.InventoryID = ?;");
+			$stmt->bind_param("i",$id);
+			$stmt->execute();
+			$outocme = $stmt->get_result();
+			$invParam = $outocme->fetch_assoc();
+			
+			if ($count == 0){
+				// Verify Inventory ID exists
+				if ($invParam){
+					//Add Ingredient to user's Inventory
+					$addIng = $conn->prepare("INSERT INTO inventory (inventory.InventoryID, inventory.IngredientID, inventory.Quantity) VALUES (?,?,?);");
+					$addIng->bind_param("iii",$_SESSION["id"],$ingParam["IngredientID"],$Quantity);
+					if($addIng->execute()){
+					$_POST = array();
+					}
+					echo "Ingredient: $Ingredient has been added <br>";
+					$addIng->close();
+				}
+				else{
+					echo "No Inventory exists for this user";
+				}
+				
+			}
+			
+			else {
+				$currentQuant = $conn->prepare("SELECT inventory.Quantity FROM inventory WHERE inventory.InventoryID = ? AND inventory.IngredientID = ?;");
+				$currentQuant->bind_param("ii",$invParam,$ingParam);
+				$currentQuant->execute();
+				$currentQuant->bind_result($currentTotal);
+				$currentQuant->fetch();
+				$currentQuant->close();
+				
+				$newQuant = $Quantity + $currentTotal;
+				
+				$updateIng = $conn->prepare("UPDATE inventory SET Quantity = ? WHERE inventory.InventoryID = ? AND inventory.IngredientID = ?;");
+				$updateIng->bind_param("iii",$newQuant,$invParam,$ingParam);
+				if($updateIng->execute()){
+					$_POST = array();
+				}
+				
+				
+			} 
+			$stmt->close(); 
+		}
+		else{
+			echo "Ingredient not found";
+			}
+			
+		
+		
+	$ingID->close();
+	
+	} 
+		?>
 <!DOCTYPE html>
 <html lang = "en">
 <head>
@@ -81,99 +165,16 @@
 			echo "</div>";
 		} 
 		else {
-			echo "<p>No inventory data available.</p>";
+			echo "<h1>No inventory data available.</h1>";
 		}
 
 		$showInv->free_result();
 		$showInv->close();
 		
 		// Get UserID of current user
-		$id = $_SESSION["id"];
-		
-		// Check if the form fields are set
-		if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Ingredient"]) && isset($_POST["Quantity"])){
 
-			// Retrieve data from the form
-			$Ingredient = $_POST["Ingredient"];
-			$Quantity = $_POST["Quantity"];
-			
-			//Get IngredientID of Ingredient
-			$ingID = $conn->prepare("SELECT ingredients.IngredientID FROM ingredients WHERE ingredients.Name = ?;");
-			$ingID->bind_param("s",$Ingredient);
-			$ingID->execute();
-			$equals = $ingID->get_result();
-			$ingParam = $equals->fetch_assoc();
-			
-			// Verify if the Ingredient is already in the user's Inventory
-			//Count the number of times the Ingredient is present in the user's inventory (1 or 0)
-			//$count = 0 ; 
-			$duplicate = $conn->prepare("SELECT COUNT(*) FROM inventory WHERE inventory.InventoryID = ? AND inventory.IngredientID = ?;");
-			$duplicate->bind_param("ii",$id ,$ingParam);
-			$duplicate->execute();
-			$duplicate->bind_result($count);
-			$duplicate->fetch();
-			$duplicate->close();
-			
-			
-			// Verify Ingredient exists 
-			if ($ingParam){
-				//Get the Inventory ID of a given user		
-				$stmt = $conn->prepare("SELECT inventory.InventoryID FROM inventory WHERE inventory.InventoryID = ?;");
-				$stmt->bind_param("i",$id);
-				$stmt->execute();
-				$outocme = $stmt->get_result();
-				$invParam = $outocme->fetch_assoc();
-				
-				if ($count == 0){
-					// Verify Inventory ID exists
-					if ($invParam){
-						//Add Ingredient to user's Inventory
-						$addIng = $conn->prepare("INSERT INTO inventory (inventory.InventoryID, inventory.IngredientID, inventory.Quantity) VALUES (?,?,?);");
-						$addIng->bind_param("iii",$_SESSION["id"],$ingParam["IngredientID"],$Quantity);
-						if($addIng->execute()){
-						$_POST = array();
-						}
-						echo "Ingredient: $Ingredient has been added <br>";
-						$addIng->close();
-					}
-					else{
-						echo "No Inventory exists for this user";
-					}
-					
-				}
-				
-				else {
-					$currentQuant = $conn->prepare("SELECT inventory.Quantity FROM inventory WHERE inventory.InventoryID = ? AND inventory.IngredientID = ?;");
-					$currentQuant->bind_param("ii",$invParam,$ingParam);
-					$currentQuant->execute();
-					$currentQuant->bind_result($currentTotal);
-					$currentQuant->fetch();
-					$currentQuant->close();
-					
-					$newQuant = $Quantity + $currentTotal;
-					
-					$updateIng = $conn->prepare("UPDATE inventory SET Quantity = ? WHERE inventory.InventoryID = ? AND inventory.IngredientID = ?;");
-					$updateIng->bind_param("iii",$newQuant,$invParam,$ingParam);
-					if($updateIng->execute()){
-						$_POST = array();
-					}
-					
-					
-				} 
-				$stmt->close(); 
-			}
-			else{
-				echo "Ingredient not found";
-				}
-				
-			
-			
-		$ingID->close();
-		
-		
-		} 
 		?>
-		<!--
+		
 		<div class="d-flex justify-content-center">
 			<div class="col-11 col-md-8 col-lg-6 col-xl-5 col-xxl-4 mx-auto py-2 px-2">
 				<form method="post" action="Inventory.php">
@@ -191,21 +192,22 @@
 				</form>
 			</div>			
 		</div>
-		-->
-		<div class="col-3">
+		
+		<!-- <div class="col-3">
 			<label for="ingredientDropdown " class="mb-3">Cuisine: </label>
 			<select class="form-select filter-options" id="ingredientDropdown" name="ingredientDropdown" aria-label="ingredient dropdown">
 				<option value="" class="value">Select ingredient</option>
 				<?php 
-					$ing_query = "SELECT IngredientID FROM ingredients";
+					$ing_query = "SELECT IngredientID, ingredients.Name FROM ingredients";
 					$result = $conn->query($ing_query);
 
-					while($result->fetch()){
-						echo "hello";
+					
+					while($row = $result->fetch_assoc()){
+						echo "<option value='". $IngredientID ."'> " . $row['Name'] . "</option>";
 					}
 				?>
 			</select>
-		</div>
+		</div> -->
 	<?php
 		if(isset($_POST['Recommend'])) { 	 
 			$ID = $_SESSION["id"];
