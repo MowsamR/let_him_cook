@@ -28,8 +28,7 @@ if (isset($_SESSION["id"])) {
 		$ingID->fetch();
 		$ingID->close();
 		// Verify if the Ingredient is already in the user's Inventory
-		//Count the number of times the Ingredient is present in the user's inventory (1 or 0)
-		//$count = 0 ; 
+		//Count the number of times the Ingredient is present in the user's inventory (1 or 0) 
 		$duplicate = $conn->prepare("SELECT COUNT(*) FROM inventory WHERE inventory.InventoryID = ? AND inventory.IngredientID = ?;");
 		$duplicate->bind_param("ii",$id ,$IngredientID);
 		$duplicate->execute();
@@ -39,29 +38,16 @@ if (isset($_SESSION["id"])) {
 		
 		// Verify Ingredient exists 
 		if ($IngredientID){
-			// //Get the Inventory ID of a given user		
-			// $stmt = $conn->prepare("SELECT inventory.InventoryID FROM inventory WHERE inventory.InventoryID = ?;");
-			// $stmt->bind_param("i",$id);
-			// $stmt->execute();
-			// $outcome = $stmt->get_result();
-			// $invParam = $outcome->fetch_assoc();
-			// echo $invParam;
-			// exit();
 			if ($count == 0){
 
 				//Add Ingredient to user's Inventory
 				$addIng = $conn->prepare("INSERT INTO inventory (inventory.InventoryID, inventory.IngredientID, inventory.Quantity) VALUES (?,?,?);");
 				$addIng->bind_param("iii",$_SESSION["id"],$IngredientID ,$Quantity);
 				if($addIng->execute()){
-					
-					// echo $_POST["Ingredient"];
-					// echo $_POST["Quantity"];
-					
 					header('Location: inventory_confirmation.php');
 					$addIng->close();
 					exit();
 				}
-				//echo "Ingredient: $Ingredient has been added <br>";
 					
 				
 				
@@ -80,8 +66,6 @@ if (isset($_SESSION["id"])) {
 				$updateIng = $conn->prepare("UPDATE inventory SET Quantity = ? WHERE inventory.InventoryID = ? AND inventory.IngredientID = ?;");
 				$updateIng->bind_param("iii",$newQuant,$_SESSION["id"],$IngredientID);
 				if($updateIng->execute()){
-					// echo $_POST["Ingredient"];
-					// echo $_POST["Quantity"];
 					header('Location: inventory_confirmation.php');
 					$updateIng->close();
 					exit();
@@ -197,15 +181,6 @@ if (isset($_SESSION["id"])) {
 					<form method="post" action="Inventory.php">
 							<div class = "form-group">
 								<label for="Ingredient" class="login-register-labels">Ingredient:</label>
-								<!-- <select name="Ingredient" class="form-select filter-options" id="Ingredient" aria-label="ingredient" required>
-									<?php 
-										// $ing_query = "SELECT IngredientID, ingredients.Name FROM ingredients";
-										// $result = $conn->query($ing_query);
-										// while($row = $result->fetch_assoc()){
-										// 	echo "<option value='".$row['Name']."'> " . $row['Name'] . "</option>";
-										// }
-									?>
-								</select> -->
 								<input type="text" name="Ingredient" class=" form-control login-register-input" required>
 							</div>
 							<div class = "form-group">

@@ -57,7 +57,7 @@ if (isset($_SESSION["id"])) {
             $DescriptionQuery = "SELECT DishDescription.Description FROM DishDescription WHERE DishesId = {$dishID}";
             $descriptionQueryResult = $conn->query($DescriptionQuery);
 
-            if ($descriptionQueryResult > 0) {
+            if ($descriptionQueryResult->num_rows > 0) {
                 $row = $descriptionQueryResult->fetch_assoc();
                 $DishDescription = $row['Description'];
             }
@@ -95,7 +95,7 @@ if (isset($_SESSION["id"])) {
 
                     $IngredientsQueryResult = $conn->query($IngredientsQuery);
 
-                    if ($IngredientsQueryResult > 0) { ?>
+                    if ($IngredientsQueryResult->num_rows > 0) { ?>
                         <ol class="px-5">
                             <?php
                             while ($data = $IngredientsQueryResult->fetch_assoc()) {
@@ -139,7 +139,7 @@ if (isset($_SESSION["id"])) {
             $CookingStepsQuery = "SELECT CookingSteps.StepNumber, CookingSteps.Instruction FROM CookingSteps WHERE DishesId = {$dishID}";
             $CookingStepsQueryResult = $conn->query($CookingStepsQuery);
 
-            if ($descriptionQueryResult > 0) { ?>
+            if ($descriptionQueryResult->num_rows > 0) { ?>
                 <ol class="px-5">
                     <?php
                     while ($data = $CookingStepsQueryResult->fetch_assoc()) {
@@ -159,7 +159,7 @@ if (isset($_SESSION["id"])) {
                 $VideoSearchQuery = "SELECT URL FROM DishVideo WHERE DishId = {$dishID}";
                 $VideoSearchQueryResult = $conn->query($VideoSearchQuery);
 
-                if ($VideoSearchQueryResult > 0) {
+                if ($VideoSearchQueryResult->num_rows > 0) {
                     $row = $VideoSearchQueryResult->fetch_assoc();
                     $url = explode('=',  $row['URL']);
                     $endURL = end($url);
