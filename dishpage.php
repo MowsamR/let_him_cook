@@ -1,10 +1,10 @@
 <?php
 session_start();
 if (isset($_SESSION["id"])) {
-  $username = $_SESSION["username"];
-  $loggedin = true;
+    $username = $_SESSION["username"];
+    $loggedin = true;
 } else {
-  $loggedin = false;
+    $loggedin = false;
 }
 ?>
 <!DOCTYPE html>
@@ -76,8 +76,13 @@ if (isset($_SESSION["id"])) {
 
         <div class="row m-3 align-item-center">
             <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 pb-md-4 mx-md-auto pb-sm-4 pb-4">
-                <?php $img = "img/" . $dishName . ".jpg" ?> 
-                <img class="dish-image img-fluid" src=<?php echo $img;?> alt="<?php echo $dishName;?>">
+                <?php $img = "img/" . $dishName . ".jpg";
+
+                // Replace spaces with hyphens
+                $newImgString = str_replace(' ', '-', $img);
+                ?>
+
+                <img class="dish-image " src=<?php echo $newImgString; ?> alt="<?php echo $dishName; ?>">
             </div>
             <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 cooking-steps">
 
@@ -160,7 +165,7 @@ if (isset($_SESSION["id"])) {
                     }
                     $conn->close();
                     ?>
-                    <iframe class="dish-video" src="<?php echo $fullurl;?>" allowfullscreen></iframe>
+                    <iframe class="dish-video" src="<?php echo $fullurl; ?>" allowfullscreen></iframe>
                 </div>
             </div>
 

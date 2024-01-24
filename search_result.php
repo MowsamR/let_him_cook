@@ -1,10 +1,10 @@
 <?php
 session_start();
 if (isset($_SESSION["id"])) {
-  $username = $_SESSION["username"];
-  $loggedin = true;
+    $username = $_SESSION["username"];
+    $loggedin = true;
 } else {
-  $loggedin = false;
+    $loggedin = false;
 }
 ?>
 <!DOCTYPE html>
@@ -106,9 +106,6 @@ if (isset($_SESSION["id"])) {
         if (isset($_GET['cuisineFilter'])) {
             $selectedCuisineOption = $_GET['cuisineFilter'];
         }
-        if (isset($_GET['preferences'])) {
-            $selectedPreferencesOption = $_GET['preferences'];
-        }
         if (isset($_GET['servingRange'])) {
             $selectedServingRange = $_GET['servingRange'];
         }
@@ -118,10 +115,6 @@ if (isset($_SESSION["id"])) {
         if (!empty($selectedCuisineOption)) {
             //append this to main SQL query
             $filterQuery .= " AND Cuisine = '{$selectedCuisineOption}'";
-        }
-        if (!empty($selectedPreferencesOption)) {
-            //append this to main SQL query
-            $filterQuery .= " AND Preferences = '{$selectedPreferencesOption}'";
         }
         if (!empty($selectedServingRange)) {
             //append this to main SQL query
@@ -214,7 +207,14 @@ if (isset($_SESSION["id"])) {
                                     <?php
                                     $dishName = $data['Name'];
                                     $img = "img/" . $dishName . ".jpg" ?>
-                                    <img src='<?php echo $img ?>' class='card-img search-card-img img-fluid rounded-start' alt='<?php echo $dishName; ?>' />
+
+                                    <?php 
+
+                                    // Replace spaces with hyphens
+                                    $newImgString = str_replace(' ', '-', $img);
+                                    ?>
+
+                                    <img src='<?php echo $newImgString ?>' class='card-img search-card-img img-fluid rounded-start' alt='<?php echo $dishName; ?>' />
                                 </div>
 
                                 <div class='col-12 col-md-5 col-lg-9 col-xl-9 col-xxl-9'>

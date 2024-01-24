@@ -198,6 +198,22 @@ label{
     }
 }
 
+/*search page*/
+.green-divider {
+    border: 2px solid  #00ff5e;
+}
+
+.filter-card-body {
+    background-color: #2D3035;
+    font-size: 20px;
+    margin: 15px;
+    color: #A1EEBD;
+}
+
+.filter-options {
+    margin-bottom: 1.5rem;
+}
+
 /* dish page */
 .black-divider {
     border: 2px solid rgb(0, 0, 0);
