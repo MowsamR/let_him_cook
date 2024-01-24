@@ -169,11 +169,11 @@
 			
 			
 		$ingID->close();
-		if 
+		
 		
 		} 
 		?>
-
+		<!--
 		<div class="d-flex justify-content-center">
 			<div class="col-11 col-md-8 col-lg-6 col-xl-5 col-xxl-4 mx-auto py-2 px-2">
 				<form method="post" action="Inventory.php">
@@ -191,7 +191,16 @@
 				</form>
 			</div>			
 		</div>
-		
+		-->
+		<div class="col-3">
+			<label for="ingredientDropdown " class="mb-3">Cuisine: </label>
+			<select class="form-select filter-options" id="ingredientDropdown" name="ingredientDropdown" aria-label="ingredient dropdown">
+				<option value="" class="value">Select ingredient</option>
+				<?php 
+					$ingredient
+				?>
+			</select>
+		</div>
 	<?php
 		if(isset($_POST['Recommend'])) { 	 
 			$ID = $_SESSION["id"];
