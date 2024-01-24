@@ -48,6 +48,7 @@
                 $followed_user_id = $_SESSION["id"];
                 while ($stmt->fetch()) {
                   $is_user_a_follower_query = "SELECT COUNT(*) FROM followers WHERE FollowedID = ? AND FollowerID = ?;";
+                  //$is_user_a_follower_query = "SELECT COUNT(*) FROM inventory WHERE InventoryID = username AND IngredientID = IngID;";
                   if($is_user_a_follower_stmt = $conn->prepare($is_user_a_follower_query)){
                     $is_user_a_follower_stmt->bind_param("ii", $followed_user_id, $searched_user_id);
                     if($is_user_a_follower_stmt->execute()){

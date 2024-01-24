@@ -24,6 +24,7 @@
   <?php
     //Create connection to database
     include 'php_scripts/db_connection.php';
+    $incorrectpass = true;
     if (isset($_POST['login'])) {
         //Get login data from form and store them in respective variables
         $usernameOrEmail = $_POST["usernameInput"];
@@ -45,15 +46,17 @@
                     $stmt->bind_result($id, $username, $password, $email);
                     $stmt->fetch();
 
+                    
                     //check if the password entered matches the password in the database
                     if ($inputPassword === $password) {
+                        $incorrectpass = false;
                         session_start();
                         $_SESSION['id'] = $id;
                         $_SESSION['username'] = $username;
                         header("Location: index.php");
-                    } else {
-                        $incorrect_pass = true;
-                        echo "Incorrect Password";
+                        
+                    }else{
+                      $incorrectpass = true;
                     }
                 }
             } else {
@@ -74,21 +77,30 @@
         <form action="login.php" method="post">
           <div class = "form-group">
             <label for="InputEmail" class="login-register-labels mt-4">Username:</label>
-            <input name="usernameInput"type="text" class="form-control login-register-input mt-1" id="InputEmail" placeholder="Enter your username">
+            <input name="usernameInput"type="text" class="form-control login-register-input mt-1" id="InputEmail" placeholder="Enter your username" required>
           </div>
           <div class = "form-group">
             <label for="InputPassword" class="login-register-labels mt-3">Password:</label>
-            <input name="passwordInput"type="password" class="form-control login-register-input mt-1" id="InputPassword" placeholder="Enter your password">      
+            <input name="passwordInput" type="password" class="form-control login-register-input mt-1" id="InputPassword" placeholder="Enter your password" required>      
           </div>
           <div class="d-flex justify-content-end mt-5 mb-3">
-            <button name="login" type="submit" class="btn btn-login col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-4 ">Login</button>
+            <button name="login" type="submit" class="btn btn-login col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-4" onclick="showMessage('<?php echo json_encode($incorrectpass);?>');">Login</button>
           </div>
           <div class="d-flex justify-content-center mt-1 mb-0">
-          <p>Not a memeber? <a href="register.php">register</a></p>
+          <p>Not a member? <a href="register.php">register</a></p>
           </div>
         </form>
       </div>
     </div>
+    <script>
+      function showMessage(incorrectpass){
+        console.log("ip: " + incorrectpass);
+        if(incorrectpass == true){
+          alert("incorrect pass");
+          <?php $incorrectpass = false?>
+        }
+      }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
    </body>
 </html>
