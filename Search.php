@@ -1,3 +1,12 @@
+<?php
+session_start();
+if (isset($_SESSION["id"])) {
+  $username = $_SESSION["username"];
+  $loggedin = true;
+} else {
+  $loggedin = false;
+}
+?>
 <!DOCTYPE html>
 <html lang = "en">
 	<head>

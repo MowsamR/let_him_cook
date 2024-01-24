@@ -91,7 +91,7 @@
                         SET Password = ?
                         WHERE UserID = ?;";
                         if($stmt = $conn->prepare($updateQuery)) {
-                            $stmt->bind_param("si", $new_password, $_SESSION["id"]);
+                            $stmt->bind_param("si", $hashNew, $_SESSION["id"]);
                             if ($stmt->execute()) {
                                 $password = $hashNew;
                                 $password_changed_successfully = true;
