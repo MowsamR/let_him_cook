@@ -48,25 +48,16 @@
                         <form action="search_result.php" method="GET">
                             <!-- Cuisine Option: -->
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-12">
                                     <label for="cuisineFilter " class="mb-3">Cuisine: </label>
                                     <select class="form-select filter-options" id="cuisineFilter" name="cuisineFilter" aria-label="cuisine filter option">
                                         <option value="">Select Cuisine</option>
                                         <option value="Indian">Indian</option>
                                         <option value="Chinese">Chinese</option>
-                                        <option value="Italian">Italian</option>
+                                        <option value="American">American</option>
                                     </select>
                                 </div>
-                                <div class="col-6">
-                                    <!-- Preferences Option: -->
-                                    <label for="preferences" class="mb-3">Preferences: </label>
-                                    <select class="form-select filter-options" id="preferences" name="preferences" aria-label="preferences filter option">
-                                        <option value="">Select Preferences</option>
-                                        <option value="Vegan">Vegan</option>
-                                        <option value="Vegetarian">Vegetarian</option>
-                                        <option value="Halal">Halal</option>
-                                    </select>
-                                </div>
+
                             </div>
 
 
@@ -211,7 +202,7 @@
                             <div class='row g-0'>
                                 <div class='col-12 col-md-5 col-lg-3 col-xl-3 col-xxl-3'>
 
-                                    <?php 
+                                    <?php
                                     $dishName = $data['Name'];
                                     $img = "img/" . $dishName . ".jpg" ?>
                                     <img src='<?php echo $img ?>' class='card-img search-card-img img-fluid rounded-start' alt='<?php echo $dishName; ?>' />
