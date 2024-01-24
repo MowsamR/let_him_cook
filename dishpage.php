@@ -1,3 +1,12 @@
+<?php
+session_start();
+if (isset($_SESSION["id"])) {
+    $username = $_SESSION["username"];
+    $loggedin = true;
+} else {
+    $loggedin = false;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -66,8 +75,15 @@
         <hr class="black-divider mb-5">
 
         <div class="row m-3 align-item-center">
-            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 pb-md-4 mx-md-auto pb-sm-4 pb-4">
-                <img class="dish-image img-fluid" src="img/Cookies.jpg" alt="Cookies">
+            <div class="dish-image col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6  col-xxl-6 pb-md-4 mx-lg-auto pb-sm-4 pb-4">
+
+                <?php $img = "img/" . $dishName . ".jpg";
+
+                // Replace spaces with hyphens
+                $newImgString = str_replace(' ', '-', $img);
+                ?>
+                <img class="img-fluid dish-image" src=<?php echo $newImgString; ?> alt="<?php echo $dishName; ?>">
+
             </div>
             <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 cooking-steps">
 
@@ -104,59 +120,62 @@
 
             </div>
 
-
         </div>
 
 
-        <hr class="black-divider mt-5">
-        <h1 class="text-center">Cooking Direction</h1>
-        <hr class="black-divider mb-5">
 
-        <div class="row m-3">
-            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6 cooking-steps">
-                <h4 class="text-center m-4"><?php echo $dishName ?> Cooking Direction</h4>
-                <hr class="green-divider">
-                <?php
-                $CookingStepsQuery = "SELECT CookingSteps.StepNumber, CookingSteps.Instruction FROM CookingSteps WHERE DishesId = {$dishID}";
-                $CookingStepsQueryResult = $conn->query($CookingStepsQuery);
+    </div>
 
-                if ($descriptionQueryResult > 0) { ?>
-                    <ol class="px-5">
-                        <?php
-                        while ($data = $CookingStepsQueryResult->fetch_assoc()) {
-                            $StepNumber = $data['StepNumber'];
-                            $Instruction = $data['Instruction'];
-                        ?>
-                            <li class="mb-4"><?php echo $Instruction ?></li>
-                        <?php } ?>
-                    </ol>
-                <?php } else {
-                    echo "No Cooking Instructions Found";
-                }  ?>
-            </div>
-            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
-                <div>
+
+    <hr class="black-divider mt-5">
+    <h1 class="text-center">Cooking Direction</h1>
+    <hr class="black-divider mb-5">
+
+    <div class="row m-3">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6 cooking-steps">
+            <h4 class="text-center m-4"><?php echo $dishName ?> Cooking Direction</h4>
+            <hr class="green-divider">
+            <?php
+            $CookingStepsQuery = "SELECT CookingSteps.StepNumber, CookingSteps.Instruction FROM CookingSteps WHERE DishesId = {$dishID}";
+            $CookingStepsQueryResult = $conn->query($CookingStepsQuery);
+
+            if ($descriptionQueryResult > 0) { ?>
+                <ol class="px-5">
                     <?php
-                    $VideoSearchQuery = "SELECT URL FROM DishVideo WHERE DishId = {$dishID}";
-                    $VideoSearchQueryResult = $conn->query($VideoSearchQuery);
-
-                    if ($VideoSearchQueryResult > 0) {
-                        $row = $VideoSearchQueryResult->fetch_assoc();
-                        $url = explode('=',  $row['URL']);
-                        $endURL = end($url);
-                        $fullurl = "https://www.youtube.com/embed/" . $endURL;
-                    } else {
-                        echo "URL not Found";
-                    }
-                    $conn->close();
+                    while ($data = $CookingStepsQueryResult->fetch_assoc()) {
+                        $StepNumber = $data['StepNumber'];
+                        $Instruction = $data['Instruction'];
                     ?>
-                    <iframe class="dish-video" src="<?php echo $fullurl;?>" allowfullscreen></iframe>
-                </div>
-            </div>
+                        <li class="mb-4"><?php echo $Instruction ?></li>
+                    <?php } ?>
+                </ol>
+            <?php } else {
+                echo "No Cooking Instructions Found";
+            }  ?>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
+            <div>
+                <?php
+                $VideoSearchQuery = "SELECT URL FROM DishVideo WHERE DishId = {$dishID}";
+                $VideoSearchQueryResult = $conn->query($VideoSearchQuery);
 
+                if ($VideoSearchQueryResult > 0) {
+                    $row = $VideoSearchQueryResult->fetch_assoc();
+                    $url = explode('=',  $row['URL']);
+                    $endURL = end($url);
+                    $fullurl = "https://www.youtube.com/embed/" . $endURL;
+                } else {
+                    echo "URL not Found";
+                }
+                $conn->close();
+                ?>
+                <iframe class="dish-video" src="<?php echo $fullurl; ?>" allowfullscreen></iframe>
+            </div>
         </div>
 
     </div>
+
+    </div>
     </div>
 
 
@@ -164,9 +183,7 @@
 
 
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 
 </html>

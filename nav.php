@@ -1,12 +1,4 @@
-<?php
-session_start();
-if (isset($_SESSION["id"])) {
-  $username = $_SESSION["username"];
-  $loggedin = true;
-} else {
-  $loggedin = false;
-}
-?>
+
 
 <nav class="navbar navbar-expand-md navbar-expand-lg navbar-expand-xl navbar-expand-xxl">
   <div class="container mx-auto my-1">
@@ -25,11 +17,11 @@ if (isset($_SESSION["id"])) {
           mx-auto
           me-lg-4 me-xl-3 me-xxl-3
           mt-3 mt-md-0 mt-lg-0 mt-xl-0 mt-xxl-0"
-          action="search_result.php" method="POST">
+          action="search_result.php" method="post">
             <div class="form-group col-9 col-md-8">
-              <input class="form-control navbar-search-input" type="search" id='Ingredient' name='Ingredient' aria-label="Search">
+              <input class="form-control navbar-search-input" type="search" placeholder="Search" id='searchFood' aria-describedby="searchFood" id="searchFood" name="searchFood">
             </div>
-            <button class="btn nav-search-btn navbar-search-btn ms-1 col-3 col-md-4" name="Submit" type="submit" required>Search</button>
+            <button class="btn nav-search-btn navbar-search-btn ms-1 col-3 col-md-4" type="submit" required>Search</button>
           </form>
         </li>
         <li class="nav-item
@@ -37,7 +29,7 @@ if (isset($_SESSION["id"])) {
         me-1 me-md-2 me-lg-3 me-xl-3 me-xxl-3
         mt-1 mt-md-0 mt-lg-0 mt-xl-0 mt-xxl-0
         ">
-          <a class="nav-link dishes-link-nav" href="#">Dishes</a>
+          
         </li>
 
         <!-- If user is logged in, show relevant previlaged actions (Check dashboard, inventory, logout, etc) -->
