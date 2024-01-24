@@ -26,6 +26,9 @@
         <?php include 'nav.php'?>
         
         <?php 
+			$emailchangedsuccessfully = false;
+			$emailIsRepeated = false;
+			
             include 'php_scripts/db_connection.php';
             $query = "SELECT Username, Password, Email FROM user WHERE Username = ?";
 
@@ -43,7 +46,7 @@
                 //Error handling
                 //Checking if the email already exists in database
                 $emailCheckQuery="SELECT Email FROM user WHERE Email=?;";
-                $emailIsRepeated = false;
+               
                 if($stmt = $conn->prepare($emailCheckQuery)){
                     $stmt->bind_param("s", $_POST['emailUpdateInput']);
                     if ($stmt->execute()) {    
@@ -56,7 +59,7 @@
                     $stmt->close();
                 }
 
-                $emailchangedsuccessfully = false;
+                
 
                 if($emailIsRepeated == false){
                     $updateQuery = "UPDATE user
@@ -124,7 +127,7 @@
                         <?php endif; ?>
                     </div>
                     <div class="d-flex justify-content-end mb-4 mt-4">
-                        <button name="saveEmail" type="save" class="btn col-12 col-md-6 col-lg-5 col-xl-5 col-xxl-5 btn-dashboard btn-dashboard-save mt-0">Save email</button>
+                        <button name="saveEmail" type="submit" class="btn col-12 col-md-6 col-lg-5 col-xl-5 col-xxl-5 btn-dashboard btn-dashboard-save mt-0">Save email</button>
                     </div>
                     <hr>
                     <div class = "form-group">
@@ -140,7 +143,7 @@
                         <input name="newPasswordConfirmInput"type="password" class="form-control login-register-input" id="oldPasswordConfirm">      
                     </div>      
                     <div class="d-flex justify-content-end mt-4">
-                        <button name="savePassword" type="save" class="btn btn-dashboard btn-dashboard-save col-12 col-md-6 col-lg-5 col-xl-5 col-xxl-5  mt-0">Save password</button>
+                        <button name="savePassword" type="submit" class="btn btn-dashboard btn-dashboard-save col-12 col-md-6 col-lg-5 col-xl-5 col-xxl-5  mt-0">Save password</button>
                     </div>
                 </form>
                 
