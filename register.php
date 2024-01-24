@@ -68,8 +68,7 @@
               //If no errors so far, create a new User Record
 			  //Hash the password
 			  $password = hash("sha256",$password);
-              $insertQuery = "INSERT INTO `user`(`Username`, `Password`, `Email`)
-                                        VALUES (?, ?, ?);";
+              $insertQuery = "INSERT INTO `user`(`Username`, `Password`, `Email`)VALUES (?, ?, ?);";
               $insertStmt = $conn->prepare($insertQuery);
               $insertStmt->bind_param("sss", $username, $password, $email);
               if ($insertStmt->execute()) {
