@@ -1,4 +1,15 @@
 <?php
+session_start();
+if (isset($_SESSION["id"])) {
+  $username = $_SESSION["username"];
+  $loggedin = true;
+} else {
+  $loggedin = false;
+}
+?>
+<?php
+	include "php_scripts/db_connection.php";
+	
 	$id = $_SESSION["id"];
 	
 	// Check if the form fields are set
@@ -25,15 +36,14 @@
 		$duplicate->fetch();
 		$duplicate->close();
 		
-		
 		// Verify Ingredient exists 
 		if ($ingParam){
 			//Get the Inventory ID of a given user		
 			$stmt = $conn->prepare("SELECT inventory.InventoryID FROM inventory WHERE inventory.InventoryID = ?;");
 			$stmt->bind_param("i",$id);
 			$stmt->execute();
-			$outocme = $stmt->get_result();
-			$invParam = $outocme->fetch_assoc();
+			$outcome = $stmt->get_result();
+			$invParam = $outcome->fetch_assoc();
 			
 			if ($count == 0){
 				// Verify Inventory ID exists
@@ -42,10 +52,12 @@
 					$addIng = $conn->prepare("INSERT INTO inventory (inventory.InventoryID, inventory.IngredientID, inventory.Quantity) VALUES (?,?,?);");
 					$addIng->bind_param("iii",$_SESSION["id"],$ingParam["IngredientID"],$Quantity);
 					if($addIng->execute()){
-					$_POST = array();
+						$addIng->close();
+						header('Location: inventory_confirmation');
+						exit();
 					}
-					echo "Ingredient: $Ingredient has been added <br>";
-					$addIng->close();
+					//echo "Ingredient: $Ingredient has been added <br>";
+					
 				}
 				else{
 					echo "No Inventory exists for this user";
@@ -66,7 +78,9 @@
 				$updateIng = $conn->prepare("UPDATE inventory SET Quantity = ? WHERE inventory.InventoryID = ? AND inventory.IngredientID = ?;");
 				$updateIng->bind_param("iii",$newQuant,$invParam,$ingParam);
 				if($updateIng->execute()){
-					$_POST = array();
+					$updateIng->close();
+					header('Location: inventory_confirmation');
+					exit();
 				}
 				
 				
@@ -82,7 +96,7 @@
 	$ingID->close();
 	
 	} 
-		?>
+	?>
 <!DOCTYPE html>
 <html lang = "en">
 <head>
