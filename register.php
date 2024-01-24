@@ -117,7 +117,7 @@
           <button name="register" type="submit" class="btn btn-login col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 col-xxl-4">Register</button>
         </div>
         <div class="d-flex justify-content-center mt-1 mb-0">
-          <p>Already a Member?  <a href="register.php">Log in</a></p>
+          <p>Already a Member?  <a href="login.php">Log in</a></p>
         </div>
       </form>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

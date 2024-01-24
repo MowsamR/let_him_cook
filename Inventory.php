@@ -197,7 +197,12 @@
 			<select class="form-select filter-options" id="ingredientDropdown" name="ingredientDropdown" aria-label="ingredient dropdown">
 				<option value="" class="value">Select ingredient</option>
 				<?php 
-					$ingredient
+					$ing_query = "SELECT IngredientID FROM ingredients";
+					$result = $conn->query($ing_query);
+
+					while($result->fetch()){
+						echo "hello";
+					}
 				?>
 			</select>
 		</div>
