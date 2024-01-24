@@ -210,7 +210,11 @@
                         <div class='card search-card-style mb-3'>
                             <div class='row g-0'>
                                 <div class='col-12 col-md-5 col-lg-3 col-xl-3 col-xxl-3'>
-                                    <img src='img/<?php echo $data['Name'] ?>.jpg' class='card-img search-card-img img-fluid rounded-start' alt='first image' />
+
+                                    <?php 
+                                    $dishName = $data['Name'];
+                                    $img = "img/" . $dishName . ".jpg" ?>
+                                    <img src='<?php echo $img ?>' class='card-img search-card-img img-fluid rounded-start' alt='<?php echo $dishName; ?>' />
                                 </div>
 
                                 <div class='col-12 col-md-5 col-lg-9 col-xl-9 col-xxl-9'>

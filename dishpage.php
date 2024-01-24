@@ -67,7 +67,8 @@
 
         <div class="row m-3 align-item-center">
             <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 pb-md-4 mx-md-auto pb-sm-4 pb-4">
-                <img class="dish-image img-fluid" src="img/Cookies.jpg" alt="Cookies">
+                <?php $img = "img/" . $dishName . ".jpg" ?> 
+                <img class="dish-image img-fluid" src=<?php echo $img;?> alt="<?php echo $dishName;?>">
             </div>
             <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 cooking-steps">
 
