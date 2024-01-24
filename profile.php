@@ -78,11 +78,14 @@
                 $current_password = $_POST['currentPasswordInput'];
                 $new_password = $_POST['newPasswordInput'];
                 $new_password_confirmation = $_POST['newPasswordConfirmInput'];
-
+				
+				
                 $do_passwords_match = true;
                 $is_current_password_correct = true;
                 if($new_password == $new_password_confirmation){
-                    if($current_password == $password){
+					$hashNew = hash ("sha256",$new_password);
+					$hashCurrent = hash ("sha256",$current_password);
+                    if($hashCurrent == $password){
                         $is_current_password_correct = true;
                         $updateQuery = "UPDATE user
                         SET Password = ?
@@ -90,7 +93,7 @@
                         if($stmt = $conn->prepare($updateQuery)) {
                             $stmt->bind_param("si", $new_password, $_SESSION["id"]);
                             if ($stmt->execute()) {
-                                $password = $new_password;
+                                $password = $hashNew;
                                 $password_changed_successfully = true;
                             }
                             $stmt->close();
