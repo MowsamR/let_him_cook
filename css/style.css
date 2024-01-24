@@ -220,9 +220,9 @@ label{
 }
 
 .dish-image {
-    max-width: 100%;
-    max-height: 500px;
-    border-radius: 10px;
+    min-width: 450px;
+    height: auto;
+    /* Adjust this value based on your needs */
 }
 
 .dish-video {
